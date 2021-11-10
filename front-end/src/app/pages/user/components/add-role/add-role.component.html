@@ -1,0 +1,39 @@
+<app-card [title]="'Add User Role'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <form (ngSubmit)="addRole()" [formGroup]="roleForm">
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="first_name">Role Name</label>
+                <input (blur)="validateRoleForm()" class="w-full" formControlName="name"
+                       id="first_name"
+                       pInputText type="text">
+                <span *ngIf="formErrors.name"
+                      class="text-danger text-left">{{ formErrors.name }}</span>
+            </div>
+        </div>
+        <div *ngIf="!user.userData.scheme_id" class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <div class="p-field-checkbox">
+                    <label for="binary">Tick the box if the role is for admins</label>
+                    <p-checkbox binary="true" formControlName="is_admin_role" id="binary"></p-checkbox>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!roleForm.controls['is_admin_role'].value" class="field col-6 md:col-12">
+            <p-dropdown [filter]="true" [options]="schemes" [showClear]="true" [style]="{'display': 'flex'}"
+                        dataKey="id" filterBy="name"
+                        formControlName="scheme_id" optionLabel="name" optionValue="id"
+                        placeholder="Select a Scheme">
+                <ng-template let-scheme pTemplate="item">
+                    <div>{{scheme.name}}</div>
+                </ng-template>
+            </p-dropdown>
+            <span *ngIf="formErrors.company_id"
+                  class="text-danger text-left">{{ formErrors.company_id }}</span>
+        </div>
+
+        <div class="formgrid grid submit">
+            <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
+        </div>
+    </form>
+</app-card>

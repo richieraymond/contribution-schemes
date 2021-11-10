@@ -1,0 +1,100 @@
+<app-card [title]="'My Profile'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <div class="row">
+        <div class="col-md-12 col-xl-4">
+            <div class="card">
+                <div class="card-block ">
+                    <div class="card-contain text-center ">
+                        <img alt=" " src="assets/images/avatar-1.jpg">
+                        <h6 class="f-w-600 f-20 p-b-5 m-0 p-t-15 ">{{user.userData.first_name + ' ' + user.userData.last_name}}</h6>
+                        <a href="javascript:"><i class="pi pi-envelope"></i>{{user.userData.email}}</a>
+                        <p class="text-muted m-0 p-t-5 "><i class="pi pi-phone"></i>{{user.userData.phone}}</p>
+                        <p class="text-muted p-b-25 m-0 p-t-5 "><i class="pi pi-tags"></i>{{user.userRole}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-xl-8">
+            <p-tabView>
+                <p-tabPanel header="Update Profile">
+                    <form (ngSubmit)="updateProfile()" [formGroup]="userForm">
+                        <div class="formgrid grid">
+                            <div class="field col-6 md:col-12 col-xs-12">
+                                <label for="first_name">First Name</label>
+                                <input (blur)="validateUserForm()" class="w-full" formControlName="first_name"
+                                       id="first_name"
+                                       pInputText type="text">
+                                <span *ngIf="formErrors.firstname"
+                                      class="text-danger text-left">{{ formErrors.firstname }}</span>
+                            </div>
+                            <div class="field col-6 ">
+                                <label for="last_name">Last Name</label>
+                                <input (blur)="validateUserForm()" class="w-full" formControlName="last_name"
+                                       id="last_name"
+                                       pInputText type="text">
+                                <span *ngIf="formErrors.lastname"
+                                      class="text-danger text-left">{{ formErrors.lastname }}</span>
+                            </div>
+                            <div class="field col-6 md:col-12">
+                                <label for="phone">Phone</label>
+                                <input (blur)="validateUserForm()" class="w-full" formControlName="phone" id="phone"
+                                       pInputText
+                                       type="text">
+                                <span *ngIf="formErrors.phone"
+                                      class="text-danger text-left">{{ formErrors.phone }}</span>
+                            </div>
+                            <div class="field col-6 md:col-12">
+                                <label for="email">Email</label>
+                                <input (blur)="validateUserForm()" class="w-full" formControlName="email" id="email"
+                                       pInputText
+                                       type="text">
+                                <span *ngIf="formErrors.email"
+                                      class="text-danger text-left">{{ formErrors.email }}</span>
+                            </div>
+                        </div>
+                        <div class="formgrid grid submit">
+                            <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
+                        </div>
+                    </form>
+                </p-tabPanel>
+                <p-tabPanel header="Change Password">
+                    <form (ngSubmit)="forgotPasswordRequest()" [formGroup]="resetPasswordForm">
+                        <div class="p-grid p-fluid">
+                            <div class="p-col-12 p-md-2">
+                                <div class="p-inputgroup">
+                                    <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+                                    <input (blur)="validateResetPasswordForm();comparePasswords();"
+                                           [feedback]="false"
+                                           formControlName="password" pPassword placeholder="Enter Password"
+                                           type="password"/>
+                                </div>
+                                <span *ngIf="formErrors.password"
+                                      class="text-danger text-left">{{ formErrors.password }}</span>
+                            </div>
+                            <div class="p-col-12 p-md-2">
+                                <div class="p-inputgroup">
+                                    <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+                                    <input (blur)="validateResetPasswordForm();comparePasswords();"
+                                           [feedback]="false"
+                                           formControlName="confirm_password" pPassword placeholder="Confirm Password"
+                                           type="password"/>
+                                </div>
+                                <span *ngIf="formErrors.confirm_password"
+                                      class="text-danger text-left">{{ formErrors.confirm_password }}</span>
+                            </div>
+                        </div>
+                        <div class="row m-t-5">
+                            <div class="col-md-12">
+                                <button class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+                                        type="submit">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+
+</app-card>

@@ -1,0 +1,332 @@
+<app-card [title]="'Scheme Profile'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <p-confirmPopup></p-confirmPopup>
+    <div class="row">
+        <div class="col-md-12 col-xl-4">
+            <div class="card">
+                <div class="card-block ">
+                    <div class="card-contain text-center ">
+                        <h6 class="f-w-600 f-20 p-b-5 m-0 p-t-15 ">{{schemeInfo?.name}}</h6>
+                        <table>
+                            <tr>
+                                <th class="text-left">Contact Person:</th>
+                                <td class="text-right">{{schemeInfo?.contact_person}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Phone:</th>
+                                <td class="text-right">{{schemeInfo?.phone}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Email:</th>
+                                <td class="text-right">{{schemeInfo?.email}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Location:</th>
+                                <td class="text-right">{{schemeInfo?.location}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-xl-8">
+            <p-tabView (activeIndexChange)="changeActiveIndex($event)">
+                <!--Fetch stats-->
+                <p-tabPanel header="Overview">
+                    <div class="row">
+                        <!-- card1 start -->
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card widget-card-1">
+                                <div class="card-block-small">
+                                    <span class="text-c-blue f-w-600">Contributors</span>
+                                    <h4>{{guards_}}</h4>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card1 end -->
+                        <!-- card2 start -->
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card widget-card-1">
+                                <div class="card-block-small">
+                                    <span class="text-c-pink f-w-600">Projects</span>
+                                    <h4>{{sites_}}</h4>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card2 end -->
+                        <!-- card3 start -->
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card widget-card-1">
+                                <div class="card-block-small">
+                                    <span class="text-c-green f-w-600">Branches</span>
+                                    <h4>{{zones_}}</h4>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- card3 end -->
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card widget-card-1">
+                                <div class="card-block-small">
+                                    <span class="text-c-yellow f-w-600">Users</span>
+                                    <h4>{{users_}}</h4>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-xl-3">
+                            <div class="card widget-card-1">
+                                <div class="card-block-small">
+                                    <span class="text-c-blue f-w-600">Total Contributions</span>
+                                    <h4>{{checkins_}}</h4>
+                                    <div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </p-tabPanel>
+
+                <!--Fetch Heirachies-->
+                <p-tabPanel header="Hierarchies">
+                    <div class="text-right mb-1">
+          <span class="p-buttonset">
+                <button (click)="createHierarchy()" icon="pi pi-plus" label="Add Hierarchy" pButton pRipple
+                        styleClass="p-button-sm"></button>
+          </span>
+                    </div>
+                    <p-table #dt [autoLayout]="true" [columns]="cols"
+                             [paginator]="true"
+                             [responsive]="true"
+                             [rows]="10"
+                             [value]="hierarchies" responsive>
+                        <ng-template pTemplate="caption">
+                            <div class="ui-helper-clearfix" style="text-align: right">
+                                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText
+                                       placeholder="Global Filter"
+                                       style="width:auto" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button (click)="dt.exportCSV()" icon="fa fa-file-excel-o" iconPos="left" label="CSV"
+                                        pButton
+                                        style="margin-right: 0.5em;" type="button"></button>
+                                <button (click)="downloadPdf(cols,guards,'Guards')" class="ui-button-danger"
+                                        icon="fa fa-file-pdf-o"
+                                        iconPos="left"
+                                        label="PDF"
+                                        pButton type="button"></button>
+                            </div>
+                            <br>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="header">
+                            <tr>
+                                <th>#</th>
+                                <th *ngFor="let col of columns">
+                                    {{col.header}}
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">
+                            <tr>
+                                <td>{{i + 1}}</td>
+                                <td>{{rowData?.name}}</td>
+                                <td>
+                                    <ng-container *ngIf="!rowData?.status">
+                                        <p-tag icon="pi pi-times" severity="danger" value="Inactive"></p-tag>
+                                    </ng-container>
+                                    <span *ngIf="rowData?.status">
+                                        <p-tag icon="pi pi-check" severity="success" value="Active"></p-tag>
+                                    </span>
+                                </td>
+                                <td class="table-actions">
+                                    <div class="p-sm-2">
+                                        <i (click)="parentRouter.navigate(['scheme/edit-scheme-hierarchy',rowData.id])"
+                                           class="pi pi-pencil"
+                                           pTooltip="Edit Hierarchy"
+                                        ></i>
+                                    </div>
+                                    <ng-container *ngIf="!rowData.status">
+                                        <div class="p-sm-2">
+                                            <i (click)="confirmAction($event,true,rowData,'scheme/hierarchy')"
+                                               class="pi pi-plus text-primary"
+                                               pTooltip="Activate Scheme"></i>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="rowData.status">
+                                        <div class="p-sm-2">
+                                            <i (click)="confirmAction($event,false,rowData,'scheme/hierarchy')"
+                                               class="pi pi-times text-danger"
+                                               pTooltip="Deactivate Scheme">
+                                            </i>
+                                        </div>
+                                    </ng-container>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="emptymessage">
+                            <tr>
+                                <td [attr.colspan]="cols.length+2">
+                                    <b>No records found</b>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+
+
+                <!--Fetch Contributors-->
+                <p-tabPanel header="Branches">
+                    <div class="text-right mb-1">
+                                   <span class="p-buttonset">
+                <button (click)="createBranch()" icon="pi pi-plus" label="Add Branch" pButton pRipple
+                        styleClass="p-button-sm"></button>
+                       </span>
+                    </div>
+                    <p-table #dt [autoLayout]="true" [columns]="cols" [paginator]="true" [responsive]="true" [rows]="10"
+                             [value]="branches">
+                        <ng-template pTemplate="caption">
+                            <div class="ui-helper-clearfix" style="text-align: right">
+                                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText
+                                       placeholder="Global Filter"
+                                       style="width:auto" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button (click)="dt.exportCSV()" icon="fa fa-file-excel-o" iconPos="left" label="CSV"
+                                        pButton
+                                        style="margin-right: 0.5em;" type="button"></button>
+                                <button (click)="downloadPdf(cols,branches,'Branches')" class="ui-button-danger"
+                                        icon="fa fa-file-pdf-o"
+                                        iconPos="left"
+                                        label="PDF"
+                                        pButton type="button"></button>
+                            </div>
+                            <br>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="header">
+                            <tr>
+                                <th>#</th>
+                                <th *ngFor="let col of columns">
+                                    {{col.header}}
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">
+                            <tr>
+                                <td>{{i + 1}}</td>
+                                <td>{{rowData?.name }}</td>
+                                <td>{{rowData?.location  }}</td>
+                                <td>{{rowData?.contact_person  }}</td>
+                                <td>{{rowData?.phone  }}</td>
+                                <td>{{rowData?.email  }}</td>
+                                <td>
+                                    <ng-container *ngIf="!rowData?.status">
+                                        <p-tag icon="pi pi-times" severity="danger" value="Inactive"></p-tag>
+                                    </ng-container>
+                                    <span *ngIf="rowData?.status">
+                        <p-tag icon="pi pi-check" severity="success" value="Active"></p-tag>
+                    </span>
+                                </td>
+                                <td class="table-actions">
+                                    <div class="p-sm-2">
+                                        <i (click)="editBranch(rowData)" class="pi pi-pencil"
+                                           pTooltip="Edit Scheme"
+                                        ></i>
+                                    </div>
+                                    <ng-container *ngIf="!rowData.status">
+                                        <div class="p-sm-2">
+                                            <i (click)="confirmAction($event,true,rowData,'scheme/branch')"
+                                               class="pi pi-plus text-primary"
+                                               pTooltip="Activate Scheme"></i>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="rowData.status">
+                                        <div class="p-sm-2">
+                                            <i (click)="confirmAction($event,false,rowData,'scheme/branch')"
+                                               class="pi pi-times text-danger"
+                                               pTooltip="Deactivate Scheme">
+                                            </i>
+                                        </div>
+                                    </ng-container>
+                                </td>
+
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="emptymessage">
+                            <tr>
+                                <td [attr.colspan]="cols.length+2">
+                                    <b>No records found</b>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+
+                <!--Get company Users-->
+                <p-tabPanel header="Users">
+                    <p-table #dt [autoLayout]="true" [columns]="cols" [paginator]="true" [responsive]="true" [rows]="10"
+                             [value]="users">
+                        <ng-template pTemplate="caption">
+                            <div class="ui-helper-clearfix" style="text-align: right">
+                                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText
+                                       placeholder="Global Filter"
+                                       style="width:auto" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button (click)="dt.exportCSV()" icon="fa fa-file-excel-o" iconPos="left" label="CSV"
+                                        pButton
+                                        style="margin-right: 0.5em;" type="button"></button>
+                                <button (click)="downloadPdf(cols,users,'Users')" class="ui-button-danger"
+                                        icon="fa fa-file-pdf-o"
+                                        iconPos="left"
+                                        label="PDF"
+                                        pButton type="button"></button>
+                            </div>
+                            <br>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="header">
+                            <tr>
+                                <th>#</th>
+                                <th *ngFor="let col of columns">
+                                    {{col.header}}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">
+                            <tr>
+                                <td>{{i + 1}}</td>
+                                <td>{{rowData?.first_name + ' ' + rowData?.last_name  }}</td>
+                                <td>{{rowData?.email  }}</td>
+                                <td>{{rowData?.phone  }}</td>
+                                <td>{{rowData?.role?.name  }}</td>
+                                <td>{{rowData?.company?.name  }}</td>
+                                <td>
+                                    <ng-container *ngIf="!rowData?.status">
+                                        <p-tag icon="pi pi-times" severity="danger" value="Inactive"></p-tag>
+                                    </ng-container>
+                                    <span *ngIf="rowData?.status">
+                        <p-tag icon="pi pi-check" severity="success" value="Active"></p-tag>
+                    </span>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="emptymessage">
+                            <tr>
+                                <td [attr.colspan]="cols.length+2">
+                                    <b>No records found</b>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+
+</app-card>

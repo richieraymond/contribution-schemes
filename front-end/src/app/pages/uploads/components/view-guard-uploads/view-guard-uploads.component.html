@@ -1,0 +1,67 @@
+<app-card [title]="'Uploaded Guards Batches'">
+
+    <div class="text-right mb-1">
+          <span class="p-buttonset">
+                <button (click)="uploadGuard()" icon="pi pi-upload" label="Upload Guards" pButton pRipple
+                        styleClass="p-button-sm"></button>
+                <button (click)="getUploads()" class="p-button-outlined p-button-secondary" icon="pi pi-refresh"
+                        label="Refresh" pButton
+                        pRipple
+                        styleClass="p-button-sm"></button>
+          </span>
+    </div>
+    <p-messages key="message"></p-messages>
+    <p-confirmPopup></p-confirmPopup>
+    <p-table #dt [autoLayout]="true" [columns]="cols" [paginator]="true" [responsive]="true" [rows]="10"
+             [value]="uploadedGuards">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText
+                       placeholder="Global Filter"
+                       style="width:auto" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
+                <button (click)="dt.exportCSV()" icon="fa fa-file-excel-o" iconPos="left" label="CSV" pButton
+                        style="margin-right: 0.5em;" type="button"></button>
+                <button (click)="downloadPdf(cols,uploadedGuards,'Uploads')" class="ui-button-danger" icon="fa fa-file-pdf-o" iconPos="left"
+                        label="PDF"
+                        pButton type="button"></button>
+            </div>
+            <br>
+        </ng-template>
+        <ng-template let-columns pTemplate="header">
+            <tr>
+                <th>#</th>
+                <th>Batch Number</th>
+                <th>Created On</th>
+                <th>Created By</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">
+            <tr>
+                <td>{{i + 1}}</td>
+                <td>{{rowData?.batch_no }}</td>
+                <td>{{rowData?.created_at  }}</td>
+                <td>{{rowData?.last_name }} {{rowData?.first_name }}</td>
+                <td>{{rowData?.status }}</td>
+
+                <td class="table-actions">
+                    <div class="p-sm-2">
+                        <i (click)="processApproval(rowData)" class="pi pi-eye"
+                           pTooltip="View Company Profile"
+                        ></i>
+                    </div>
+
+
+            </tr>
+        </ng-template>
+        <ng-template let-columns pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="uploadedGuards.length+2">
+                    <b>No records found</b>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</app-card>

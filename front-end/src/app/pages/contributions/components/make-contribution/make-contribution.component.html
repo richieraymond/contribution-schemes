@@ -1,0 +1,214 @@
+<app-card [title]="'Make Contribution'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <form (ngSubmit)="verifyContributor()" [formGroup]="phoneNumberFormGroup">
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12">
+                <label for="phone">Phone</label>
+                <input (blur)="validateTelForm()" class="inputfield w-full" formControlName="phone" id="phone"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.phone"
+                      class="text-danger text-left">{{ formErrors.phone }}</span>
+            </div>
+        </div>
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12">
+                <p-button icon="pi pi-check" iconPos="right" label="Check Details" type="submit"></p-button>
+            </div>
+        </div>
+    </form>
+
+    <form (ngSubmit)="registerContributor()" *ngIf="showRegisterContributor" [formGroup]="registerContributorForm">
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12">
+                <label for="first_name">First Name (*)</label>
+                <input (blur)="validateContributorForm()" class="inputfield w-full" formControlName="first_name"
+                       id="first_name"
+                       pInputText type="text">
+                <span *ngIf="formErrors.first_name"
+                      class="text-danger text-left">{{ formErrors.first_name }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="last_name">Last Name (*)</label>
+                <input (blur)="validateContributorForm()" class="inputfield w-full" formControlName="last_name"
+                       id="last_name"
+                       pInputText type="text">
+                <span *ngIf="formErrors.last_name"
+                      class="text-danger text-left">{{ formErrors.last_name }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="user_phone">Phone (*)</label>
+                <input (blur)="validateContributorForm()" class="inputfield w-full" formControlName="phone"
+                       id="user_phone"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.phone"
+                      class="text-danger text-left">{{ formErrors.phone }}</span>
+            </div>
+
+            <div class="field col-6 md:col-12">
+                <label for="email">Email (Optional)</label>
+                <input (blur)="validateContributorForm()" class="inputfield w-full" formControlName="email" id="email"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.email"
+                      class="text-danger text-left">{{ formErrors.email }}</span>
+            </div>
+        </div>
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12">
+                <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
+            </div>
+        </div>
+    </form>
+
+
+    <form (ngSubmit)="makePayment()" *ngIf="showPaymentForm" [formGroup]="makePaymentForm">
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12">
+                <label for="contributionscheme">Select Contribution Scheme</label>
+                <p-dropdown (onChange)="getBranches($event.value);getProjects($event.value);"
+                            (onFilter)="getSchemes($event)"
+                            [filter]="true"
+                            [options]="schemes"
+                            [showClear]="true"
+                            [style]="{'display': 'flex'}"
+                            dataKey="id"
+                            filterBy="name" formControlName="scheme_id"
+                            id="contributionscheme"
+                            optionLabel="name" optionValue="id"
+                            placeholder="Select a Scheme">
+                    <ng-template let-scheme pTemplate="item">
+                        <div>{{scheme.name}}</div>
+                    </ng-template>
+                </p-dropdown>
+                <span *ngIf="formErrors.scheme_id"
+                      class="text-danger text-left">{{ formErrors.scheme_id }}</span>
+            </div>
+
+            <div *ngIf="branches.length>1" class="field col-6 md:col-12">
+                <label for="branches">Select Branch</label>
+                <p-dropdown [filter]="true"
+                            [options]="branches"
+                            [showClear]="true"
+                            [style]="{'display': 'flex'}"
+                            dataKey="id" filterBy="name"
+                            formControlName="branch_id"
+                            id="branches"
+                            optionLabel="name" optionValue="id"
+                            placeholder="Select a Branch">
+                    <ng-template let-branch pTemplate="item">
+                        <div>{{branch.name}}</div>
+                    </ng-template>
+                </p-dropdown>
+                <span *ngIf="formErrors.branch_id"
+                      class="text-danger text-left">{{ formErrors.branch_id }}</span>
+            </div>
+
+            <div *ngIf="projects.length>0" class="field col-6 md:col-12">
+                <label for="projects">Select cause</label>
+                <p-dropdown (onChange)="setSelectedProject($event.value)"
+                            [filter]="true"
+                            [options]="projects"
+                            [showClear]="true"
+                            [style]="{'display': 'flex'}"
+                            dataKey="id" filterBy="name"
+                            formControlName="project_id"
+                            id="projects"
+                            optionLabel="name" optionValue="id"
+                            placeholder="Select a cause">
+                    <ng-template let-project pTemplate="item">
+                        <div>{{project.name}}</div>
+                    </ng-template>
+                </p-dropdown>
+                <span *ngIf="formErrors.project_id"
+                      class="text-danger text-left">{{ formErrors.project_id }}</span>
+            </div>
+
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="amount">Amount</label>
+                <input (blur)="validatePaymentForm()"
+                       [readOnly]="selectedProject?.require_fixed_amounts && !selectedProject?.allow_installments"
+                       class="w-full"
+                       formControlName="amount"
+                       id="amount"
+                       pInputText type="text">
+                <span *ngIf="formErrors.amount"
+                      class="text-danger text-left">{{ formErrors.amount }}</span>
+            </div>
+
+            <div class="field col-6 md:col-12">
+                <h5>Pay Using</h5>
+                <div class="p-field-radiobutton">
+                    <p-radioButton (onClick)="changePhoneValidators()" formControlName="payment_channel" id="momo"
+                                   name="payment_channel" value="MOMO"></p-radioButton>
+                    <label for="momo">Mobile Money (MTN/AIRTEL)</label>
+                </div>
+                <div class="p-field-radiobutton">
+                    <p-radioButton (onClick)="changePhoneValidators()" formControlName="payment_channel" id="sasula"
+                                   name="payment_channel" value="SASULA"></p-radioButton>
+                    <label for="sasula">Cente Agent</label>
+                </div>
+                <span *ngIf="formErrors.payment_channel"
+                      class="text-danger text-left">{{ formErrors.payment_channel }}</span>
+            </div>
+
+
+            <div *ngIf="makePaymentForm.controls['payment_channel'].value==='MOMO'" class="field col-6 md:col-12">
+                <label for="payer_phone">Phone (*)</label>
+                <input (blur)="validateContributorForm()" class="inputfield w-full" formControlName="payer_phone"
+                       id="payer_phone"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.phone"
+                      class="text-danger text-left">{{ formErrors.phone }}</span>
+            </div>
+        </div>
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12">
+                <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
+            </div>
+        </div>
+    </form>
+
+    <div *ngIf="showSummary">
+        <div class="row mt-4" style="margin: 20px">
+            <div class="col-md-8">
+                <p>Transaction Summary.</p>
+                <table border="1px" class="table table-bordered table-sm">
+                    <tr>
+                        <th>Contributor Name:</th>
+                        <td>{{transactionSummary.contributor ? transactionSummary?.contributor?.first_name + ' '
+                            + transactionSummary?.contributor?.last_name : '(Not Set)'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Amount:</th>
+                        <td>{{transactionSummary.amount | number:'1.0'}}</td>
+                    </tr>
+                    <tr>
+                        <th>Payment Reference:</th>
+                        <td>{{'NVC' + transactionSummary?.sasula_reference}}</td>
+                    </tr>
+                    <tr>
+                        <th>Contribution Scheme:</th>
+                        <td>{{transactionSummary?.scheme ? transactionSummary?.scheme?.name : '(Not Set)' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Branch:</th>
+                        <td>{{transactionSummary?.branch ? transactionSummary?.branch?.name : '(Not Set)' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cause:</th>
+                        <td>{{transactionSummary?.project ? transactionSummary?.project?.name : '(Not Set)' }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="formgrid grid" style="margin: 30px">
+            <div class="field col-6 md:col-12">
+                <p-button (click)="redirectToVantageSite()" icon="pi pi-check" iconPos="right" label="Done"
+                          type="button"></p-button>
+            </div>
+        </div>
+    </div>
+</app-card>

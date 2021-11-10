@@ -1,0 +1,17 @@
+<div [@cardClose]="cardClose" [ngClass]="cardClass" class="card {{ fullCard }} {{ cardLoad }}">
+    <div *ngIf="title" class="card-header">
+        <h4>{{ title }}</h4>
+
+        <hr/>
+        <span *ngIf="!classHeader">{{ headerContent }}</span>
+        <span *ngIf="classHeader">
+      <ng-content select=".code-header"></ng-content>
+    </span>
+    </div>
+
+    <div [@cardToggle]="cardToggle">
+        <div [ngClass]="blockClass" class="card-body">
+            <ng-content></ng-content>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+<app-card [title]="'Add Cause'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <form (ngSubmit)="addRole()" [formGroup]="form">
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="name">Name</label>
+                <input (blur)="validateCurrentForm()" class="w-full" formControlName="name"
+                       id="name"
+                       pInputText type="text">
+                <span *ngIf="formErrors.name"
+                      class="text-danger text-left">{{ formErrors.name }}</span>
+            </div>
+        </div>
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <div class="p-field-checkbox">
+                    <label for="binary">Is Recurring?</label>
+                    <p-checkbox (onChange)="handleRecurringResponse($event.checked)" binary="true"
+                                formControlName="is_recurring"
+                                id="binary"></p-checkbox>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="form.controls['is_recurring'].value" class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="frequency">Recurs every</label>
+                <input (blur)="validateCurrentForm()" class="w-full" formControlName="frequency"
+                       id="frequency"
+                       pInputText type="text">
+                <span *ngIf="formErrors.frequency"
+                      class="text-danger text-left">{{ formErrors.frequency }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="frequency_cd">Unit</label>
+                <p-dropdown [options]="frequencies"
+                            [style]="{'display': 'flex'}"
+                            dataKey="value" filterBy="name"
+                            formControlName="frequency_unit"
+                            id="frequency_cd" optionLabel="name" optionValue="value"
+                            placeholder="">
+                    <ng-template let-frequency pTemplate="item">
+                        <div>{{frequency.name}}</div>
+                    </ng-template>
+                </p-dropdown>
+                <span *ngIf="formErrors.frequency_unit"
+                      class="text-danger text-left">{{ formErrors.frequency_unit }}</span>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <div class="p-field-checkbox">
+                    <label for="require_fixed_amounts">Is fixed amount?</label>
+                    <p-checkbox (onChange)="handleFixedAmountChange($event.checked)" binary="true"
+                                formControlName="require_fixed_amounts"
+                                id="require_fixed_amounts"></p-checkbox>
+                </div>
+            </div>
+        </div>
+
+
+        <ng-container *ngIf="form.controls['require_fixed_amounts'].value">
+            <div class="formgrid grid">
+                <div class="field col-6 md:col-12 col-xs-12">
+                    <div class="p-field-checkbox">
+                        <label for="allow_installments">Allow installments?</label>
+                        <p-checkbox binary="true" formControlName="allow_installments"
+                                    id="allow_installments"></p-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div class="formgrid grid">
+                <div class="field col-6 md:col-12 col-xs-12">
+                    <label for="amount">Amount</label>
+                    <input (blur)="validateCurrentForm()" class="w-full" formControlName="amount"
+                           id="amount"
+                           pInputText type="text">
+                    <span *ngIf="formErrors.amount"
+                          class="text-danger text-left">{{ formErrors.amount }}</span>
+                </div>
+            </div>
+
+            <div class="formgrid grid">
+                <div class="field col-6 md:col-12 col-xs-12">
+                    <label for="penalty_when_missed">Penalty</label>
+                    <input (blur)="validateCurrentForm()" class="w-full" formControlName="penalty_when_missed"
+                           id="penalty_when_missed"
+                           pInputText type="text">
+                    <span *ngIf="formErrors.penalty_when_missed"
+                          class="text-danger text-left">{{ formErrors.penalty_when_missed }}</span>
+                </div>
+            </div>
+        </ng-container>
+
+        <div class="formgrid grid submit">
+            <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
+        </div>
+    </form>
+</app-card>

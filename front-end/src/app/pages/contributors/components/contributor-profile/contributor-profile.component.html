@@ -1,0 +1,199 @@
+<app-card [title]="'Contributor Profile'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <div class="row">
+        <div class="col-md-12 col-xl-4">
+            <div class="card">
+                <div class="card-block ">
+                    <div class="card-contain text-center ">
+                        <img *ngIf="contributorBio?.profile_pic===null" alt="Guard Photo" height="200px"
+                             src="assets/images/guardphoto.png"
+                             width="200px"/>
+                        <img *ngIf="contributorBio?.profile_pic" alt="Guard Photo" height="200px"
+                             src="{{imageURL+contributorBio.profile_pic}}"
+                             width="200px"/>
+                        <h6 class="f-w-600 f-20 p-b-5 m-0 p-t-15 ">{{contributorBio?.title?.name + ". " + contributorBio?.first_name + ' ' + contributorBio?.last_name}}</h6>
+                        <table>
+                            <tr>
+                                <th class="text-left">Phone:</th>
+                                <td class="text-right">{{contributorBio?.phone}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Other Phone:</th>
+                                <td class="text-right">{{contributorBio?.other_phone}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Email:</th>
+                                <td class="text-right">{{contributorBio?.email}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Gender:</th>
+                                <td class="text-right">{{contributorBio?.gender}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Marital Status:</th>
+                                <td class="text-right">{{contributorBio?.maritalstatus?.name}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Spouse:</th>
+                                <td class="text-right">{{contributorBio?.spouse}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Home Parish:</th>
+                                <td class="text-right">{{contributorBio?.home_parish}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Center:</th>
+                                <td class="text-right">{{contributorBio?.center}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Residence:</th>
+                                <td class="text-right">{{contributorBio?.residence}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Biological Mother:</th>
+                                <td class="text-right">{{contributorBio?.biological_mother}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Biological Father:</th>
+                                <td class="text-right">{{contributorBio?.biological_father}}</td>
+                            </tr>
+                        </table>
+                        <h6 class="f-w-600 f-20 p-b-5 m-0 p-t-15">Next of kin</h6>
+                        <table>
+                            <tr>
+                                <th class="text-left">Name:</th>
+                                <td class="text-right">{{contributorBio?.next_of_kin}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Phone:</th>
+                                <td class="text-right">{{contributorBio?.kin_telephone}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Other Phone:</th>
+                                <td class="text-right">{{contributorBio?.other_kin_telephone}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Email:</th>
+                                <td class="text-right">{{contributorBio?.kin_email}}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-left">Other Email:</th>
+                                <td class="text-right">{{contributorBio?.other_kin_email}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-xl-8">
+            <p-tabView>
+                <p-tabPanel header="Contributions">
+                    <div class="row">
+                        <div class="col-md-8 col-xl-4 mb-2">
+                            <label for="fromDate">From Date</label>
+                            <p-calendar [(ngModel)]="fromDate" [showIcon]="true" dateFormat="dd-mm-yy"
+                                        id="fromDate"></p-calendar>
+                        </div>
+                        <div class="col-md-8 col-xl-4 mb-2">
+                            <label for="toDate">To Date</label>
+                            <p-calendar [(ngModel)]="toDate" [showIcon]="true" dateFormat="dd-mm-yy"
+                                        id="toDate"></p-calendar>
+                        </div>
+                    </div>
+                    <p-table #dt [autoLayout]="true" [columns]="cols" [paginator]="true" [responsive]="true" [rows]="10"
+                             [value]="contributions" responsive>
+                        <ng-template pTemplate="caption">
+                            <div class="ui-helper-clearfix" style="text-align: right">
+                                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText
+                                       placeholder="Global Filter"
+                                       style="width:auto" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button (click)="dt.exportCSV()" icon="fa fa-file-excel-o" iconPos="left" label="CSV"
+                                        pButton
+                                        style="margin-right: 0.5em;" type="button"></button>
+                                <button (click)="downloadPdf(cols,contributions,'Contributions')"
+                                        class="ui-button-danger" icon="fa fa-file-pdf-o"
+                                        iconPos="left"
+                                        label="PDF"
+                                        pButton type="button"></button>
+                            </div>
+                            <br>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="header">
+                            <tr>
+                                <th>#</th>
+                                <th *ngFor="let col of columns">
+                                    {{col.header}}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">
+                            <tr>
+                                <td>{{i + 1}}</td>
+                                <td>{{rowData?.created_at | date:'dd-MM-yyy hh-mm-ss'  }}</td>
+                                <td>{{rowData?.amount}}</td>
+                                <td>{{rowData?.reason}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="emptymessage">
+                            <tr>
+                                <td [attr.colspan]="cols.length+2">
+                                    <b>No records found</b>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+                <p-tabPanel header="Biological Children">
+                    <p-table #dt [autoLayout]="true"
+                             [columns]="childrenCols"
+                             [paginator]="true"
+                             [responsive]="true"
+                             [rows]="10"
+                             [value]="children"
+                             responsive>
+                        <ng-template pTemplate="caption">
+                            <div class="ui-helper-clearfix" style="text-align: right">
+                                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                                <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText
+                                       placeholder="Global Filter"
+                                       style="width:auto" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button (click)="dt.exportCSV()" icon="fa fa-file-excel-o" iconPos="left" label="CSV"
+                                        pButton
+                                        style="margin-right: 0.5em;" type="button"></button>
+                                <button (click)="downloadPdf(childrenCols,children,'Biological Children')"
+                                        class="ui-button-danger" icon="fa fa-file-pdf-o"
+                                        iconPos="left"
+                                        label="PDF"
+                                        pButton type="button"></button>
+                            </div>
+                            <br>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="header">
+                            <tr>
+                                <th>#</th>
+                                <th *ngFor="let col of columns">
+                                    {{col.header}}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">
+                            <tr>
+                                <td>{{i + 1}}</td>
+                                <td>{{rowData?.name }}</td>
+                                <td>{{rowData?.dob | date:'dd-MM-yyy'}}</td>
+                            </tr>
+                        </ng-template>
+                        <ng-template let-columns pTemplate="emptymessage">
+                            <tr>
+                                <td [attr.colspan]="cols.length+2">
+                                    <b>No records found</b>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</app-card>

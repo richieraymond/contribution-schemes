@@ -1,0 +1,326 @@
+<app-card [title]="'Add Contributor'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <form (ngSubmit)="submitForm()" [formGroup]="form" enctype="multipart/form-data">
+        <div class="formgrid grid">
+            <div class="field col-6 ">
+                <label for="title">Select Title.</label>
+                <p-dropdown [filter]="true"
+                            [options]="titles"
+                            [showClear]="true"
+                            [style]="{'display': 'flex'}"
+                            filterBy="title"
+                            formControlName="title"
+                            id="title"
+                            optionLabel="name"
+                            optionValue="id"
+                            placeholder="Select Title">
+                    <ng-template let-title pTemplate="item">
+                        <div class="country-item">
+                            <div>{{title?.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <span *ngIf="formErrors.title"
+                      class="text-danger text-left">{{ formErrors.title }}</span>
+            </div>
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="first_name">First Name</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="first_name"
+                       id="first_name"
+                       pInputText type="text">
+                <span *ngIf="formErrors.first_name"
+                      class="text-danger text-left">{{ formErrors.first_name }}</span>
+            </div>
+            <div class="field col-6 ">
+                <label for="last_name">Sur Name</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="last_name" id="last_name"
+                       pInputText type="text">
+                <span *ngIf="formErrors.last_name"
+                      class="text-danger text-left">{{ formErrors.last_name }}</span>
+            </div>
+            <div class="field col-6 ">
+                <h5>Gender</h5>
+                <div class="p-field-radiobutton">
+                    <p-radioButton formControlName="gender" id="female" name="gender" value="FEMALE"></p-radioButton>
+                    <label for="female">Female</label>
+                </div>
+                <div class="p-field-radiobutton">
+                    <p-radioButton formControlName="gender" id="male" name="gender" value="MALE"></p-radioButton>
+                    <label for="male">Male</label>
+                </div>
+                <span *ngIf="formErrors.gender"
+                      class="text-danger text-left">{{ formErrors.gender }}</span>
+            </div>
+        </div>
+        <div class="p-fluid p-grid p-formgrid">
+            <div class="field col-6">
+                <label for="dob">Date of birth</label>
+                <p-calendar [showIcon]="true" class="w-full" dateFormat="dd.mm.yy" formControlName="dob"
+                            id="dob"></p-calendar>
+                <span *ngIf="formErrors.dob"
+                      class="text-danger text-left">{{ formErrors.dob }}</span>
+            </div>
+        </div>
+        <div class="formgrid grid">
+            <div class="field col-6 ">
+                <label for="title">Marital Status.</label>
+                <p-dropdown [filter]="true"
+                            [options]="maritalstatus"
+                            [showClear]="true"
+                            [style]="{'display': 'flex'}"
+                            filterBy="title"
+                            formControlName="maritalstatus"
+                            id="maritalstatus"
+                            optionLabel="name"
+                            optionValue="id"
+                            placeholder="Select Marital Status">
+                    <ng-template let-maritalstatus pTemplate="item">
+                        <div class="country-item">
+                            <div>{{maritalstatus?.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <span *ngIf="formErrors.maritalstatus"
+                      class="text-danger text-left">{{ formErrors.maritalstatus }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="phone">Primary Phone Number</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="phone" id="phone"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.phone"
+                      class="text-danger text-left">{{ formErrors.phone }}</span>
+            </div>
+
+            <div class="field col-6 md:col-12">
+                <label for="other_phone">Other Phone</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="other_phone" id="other_phone"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.other_phone"
+                      class="text-danger text-left">{{ formErrors.other_phone }}</span>
+            </div>
+
+            <div class="field col-6 md:col-12">
+                <label for="email">Email</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="email" id="email"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.email"
+                      class="text-danger text-left">{{ formErrors.email }}</span>
+            </div>
+
+            <div class="field col-6 md:col-12">
+                <label for="home_parish">Home Parish</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="home_parish" id="home_parish"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.home_parish"
+                      class="text-danger text-left">{{ formErrors.home_parish }}</span>
+            </div>
+
+            <div class="field col-6 md:col-12">
+                <label for="center">Center</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="center" id="center"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.center"
+                      class="text-danger text-left">{{ formErrors.center }}</span>
+            </div>
+
+            <div class="field col-6 ">
+                <label for="education_level">Highest Education Qualification.</label>
+                <p-dropdown [filter]="true"
+                            [options]="education_levels"
+                            [showClear]="true"
+                            [style]="{'display': 'flex'}"
+                            filterBy="title"
+                            formControlName="education_level"
+                            id="education_level"
+                            optionLabel="name"
+                            optionValue="id"
+                            placeholder="Select Education Qualification">
+                    <ng-template let-qualification pTemplate="item">
+                        <div class="country-item">
+                            <div>{{qualification?.name}}</div>
+                        </div>
+                    </ng-template>
+                </p-dropdown>
+                <span *ngIf="formErrors.education_level"
+                      class="text-danger text-left">{{ formErrors.education_level }}</span>
+            </div>
+
+            <div class="field col-6 md:col-12">
+                <label for="residence">Residence in kampala</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="residence" id="residence"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.residence"
+                      class="text-danger text-left">{{ formErrors.residence }}</span>
+            </div>
+        </div>
+
+        <!---Photo-->
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="photo">Contributor Photo</label>
+                <p-fileUpload #fileInput (onClear)="profilePhoto=null"
+                              (onSelect)="onImageUpload($event)"
+                              [showUploadButton]="false"
+                              accept="image/*"
+                              cancelLabel="Cancel"
+                              chooseLabel="Select Photo"
+                              customUpload="true"
+                              id="photo"
+                              invalidFileSizeMessageSummary="Max file size is 2MBs"
+                              invalidFileTypeMessageSummary="Only images are permitted" maxFileSize="1000000"
+                              name="demo[]">
+                </p-fileUpload>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div *ngIf="!showChildDetailsInput" class="field col-6 md:col-12 col-xs-12">
+                <p-button (click)="addToArray()" iconPos="right"
+                          label="Add Biological Child" type="button">
+                </p-button>
+            </div>
+        </div>
+        <!--Second row-->
+        <div class="p-fluid p-grid p-formgrid">
+            <p-table [value]="contributorChildren" dataKey="id" editMode="row" responsiveLayout="scroll">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Name</th>
+                        <th>DOB</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template let-child let-editing="editing" let-ri="rowIndex" pTemplate="body">
+                    <tr [pEditableRow]="child">
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input [(ngModel)]="child.name" [ngModelOptions]="{standalone:true}" pInputText
+                                           type="text">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{child?.name}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <p-calendar [(ngModel)]="child.dob" [ngModelOptions]="{standalone:true}"
+                                                [showIcon]="true"></p-calendar>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{child?.dob | date:'dd-MM-yyyy'}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td style="text-align:center">
+                            <button (click)="onRowEditInit(child)" *ngIf="!editing"
+                                    class="p-button-rounded p-button-text" icon="pi pi-pencil" pButton pInitEditableRow
+                                    pRipple type="button"></button>
+                            <button (click)="onRowEditSave(child)" *ngIf="editing"
+                                    class="p-button-rounded p-button-text p-button-success p-mr-2" icon="pi pi-check"
+                                    pButton pRipple
+                                    pSaveEditableRow
+                                    type="button"></button>
+                            <button (click)="onRowEditCancel(child, ri)" *ngIf="editing"
+                                    class="p-button-rounded p-button-text p-button-danger" icon="pi pi-times" pButton
+                                    pCancelEditableRow
+                                    pRipple
+                                    type="button"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <!-------Other relations-------->
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="biological_mother">Biological Mother</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="biological_mother"
+                       id="biological_mother"
+                       pInputText type="text">
+                <span *ngIf="formErrors.biological_mother"
+                      class="text-danger text-left">{{ formErrors.biological_mother }}</span>
+            </div>
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="biological_father">Biological Father</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="biological_father"
+                       id="biological_father"
+                       pInputText type="text">
+                <span *ngIf="formErrors.biological_father"
+                      class="text-danger text-left">{{ formErrors.biological_father }}</span>
+            </div>
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="spouse">Spouse</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="spouse"
+                       id="spouse"
+                       pInputText type="text">
+                <span *ngIf="formErrors.spouse"
+                      class="text-danger text-left">{{ formErrors.spouse }}</span>
+            </div>
+        </div>
+
+        <!---------Next of kin---------->
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="next_of_kin">Next of kin</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="next_of_kin"
+                       id="next_of_kin"
+                       pInputText type="text">
+                <span *ngIf="formErrors.next_of_kin"
+                      class="text-danger text-left">{{ formErrors.next_of_kin }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="kin_telephone">Telephone 1</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="kin_telephone"
+                       id="kin_telephone"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.kin_telephone"
+                      class="text-danger text-left">{{ formErrors.kin_telephone }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="other_kin_telephone">Telephone 1</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="other_kin_telephone"
+                       id="other_kin_telephone"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.other_kin_telephone"
+                      class="text-danger text-left">{{ formErrors.other_kin_telephone }}</span>
+            </div>
+
+            <div class="field col-6 md:col-12">
+                <label for="kin_email">Email</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="kin_email" id="kin_email"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.kin_email"
+                      class="text-danger text-left">{{ formErrors.kin_email }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="other_kin_email">Email</label>
+                <input (blur)="validateContributorForm()" class="w-full" formControlName="other_kin_email"
+                       id="other_kin_email"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.other_kin_email"
+                      class="text-danger text-left">{{ formErrors.other_kin_email }}</span>
+            </div>
+        </div>
+
+        <!---How did you hear about us-->
+        <div class="formgrid grid">
+        </div>
+        <div class="formgrid grid submit">
+            <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
+        </div>
+    </form>
+</app-card>

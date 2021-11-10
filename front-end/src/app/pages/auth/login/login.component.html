@@ -1,0 +1,69 @@
+<section class="login p-fixed d-flex text-center bg-primary">
+    <div class="auth-fluid">
+        <div class="p-grid p-fluid">
+            <div class="p-col-12">
+                <div class="login-card card-body auth-body">
+                    <form class="md-float-material">
+                        <div class="auth-box">
+                            <div class="p-grid p-fluid m-b-20">
+                                <div class="p-col-12">
+                                    <h3 class="text-left txt-primary">Sign In</h3>
+                                </div>
+                            </div>
+                            <hr/>
+                            <p-messages [closable]="true" key="message"></p-messages>
+                            <form (ngSubmit)="processLogin()" [formGroup]="logInForm">
+                                <div class="p-grid p-fluid">
+                                    <div class="p-col-12 p-md-2">
+                                        <div class="p-inputgroup">
+                                            <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+                                            <input (blur)="validateLogInFrom()" formControlName="useridentifier"
+                                                   pInputText placeholder="Email"
+                                                   type="email">
+                                        </div>
+                                        <span *ngIf="formErrors.useridentifier"
+                                              class="text-danger text-left">{{ formErrors.useridentifier }}</span>
+                                    </div>
+
+                                    <div class="p-col-12 p-md-2">
+                                        <div class="p-inputgroup">
+                                            <span class="p-inputgroup-addon"><i class="pi pi-lock"></i></span>
+                                            <input (blur)="validateLogInFrom()" [feedback]="false"
+                                                   formControlName="password" pPassword placeholder="********"
+                                                   type="password"/>
+                                        </div>
+                                        <span *ngIf="formErrors.password"
+                                              class="text-danger text-left">{{ formErrors.password }}</span>
+                                    </div>
+                                </div>
+                                <div class="p-grid p-fluid m-t-25 text-left">
+                                    <div class="p-col-12 forgot-phone text-right">
+                                        <a (click)="commonService.setModel('company')" [routerLink]="['/auth/forgot']"
+                                           class="text-right f-w-600 text-inverse">
+                                            Forgot
+                                            Your Password?</a>
+                                    </div>
+                                </div>
+                                <div class="row m-t-30">
+                                    <div class="col-md-12">
+                                        <button class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20"
+                                                type="submit">
+                                            Sign in
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-md-10 text-center">
+                                    <p class="text-inverse text-left m-b-0">All rights reserved. NepServ Consults
+                                        Limited.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

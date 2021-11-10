@@ -1,0 +1,73 @@
+<app-card [title]="'Add Contribution Scheme'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <form (ngSubmit)="addScheme()" [formGroup]="schemeForm">
+        <div class="formgrid grid">
+            <div class="col-6 md:col-12 col-xs-12">
+                <label for="category">Category</label>
+                <p-dropdown [filter]="true" [options]="schemecategories" [showClear]="true"
+                            [style]="{'display': 'flex'}"
+                            dataKey="id"
+                            filterBy="name" formControlName="category_id"
+                            id="category" optionLabel="name" optionValue="id"
+                            placeholder="Select a category">
+                    <ng-template let-category pTemplate="item">
+                        <div>{{category.name}}</div>
+                    </ng-template>
+                </p-dropdown>
+                <span *ngIf="formErrors.category_id"
+                      class="text-danger text-left">{{ formErrors.category_id }}</span>
+            </div>
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="name">Name</label>
+                <input (blur)="validateSchemeForm()" class="w-full" formControlName="name"
+                       id="name"
+                       pInputText type="text">
+                <span *ngIf="formErrors.name"
+                      class="text-danger text-left">{{ formErrors.name }}</span>
+            </div>
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="contact_person">Contact Person</label>
+                <input (blur)="validateSchemeForm()" class="w-full" formControlName="contact_person"
+                       id="contact_person"
+                       pInputText type="text">
+                <span *ngIf="formErrors.contact_person"
+                      class="text-danger text-left">{{ formErrors.contact_person }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="phone">Phone</label>
+                <input (blur)="validateSchemeForm()" class="w-full" formControlName="phone" id="phone"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.phone"
+                      class="text-danger text-left">{{ formErrors.phone }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="email">Email</label>
+                <input (blur)="validateSchemeForm()" class="w-full" formControlName="email" id="email"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.email"
+                      class="text-danger text-left">{{ formErrors.email }}</span>
+            </div>
+            <div class="field col-6 ">
+                <label for="location">Location</label>
+                <input (blur)="validateSchemeForm()" class="w-full" formControlName="location" id="location"
+                       pInputText type="text">
+                <span *ngIf="formErrors.location"
+                      class="text-danger text-left">{{ formErrors.location }}</span>
+            </div>
+            <div class="field col-6 md:col-12 col-xs-12">
+                <div class="p-field-checkbox">
+                    <label for="binary">Is Membership Based?</label>
+                    <p-checkbox binary="true"
+                                formControlName="is_membership_based"
+                                id="binary"></p-checkbox>
+                </div>
+            </div>
+
+        </div>
+        <div class="formgrid grid submit">
+            <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
+        </div>
+    </form>
+</app-card>
