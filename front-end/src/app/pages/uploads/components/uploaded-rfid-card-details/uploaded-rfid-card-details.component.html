@@ -1,0 +1,38 @@
+<app-card [title]="'Uploaded Rfid Cards'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <div class="row">
+        <button (click)="confirmAction('process');" *ngIf="selectedRfidCards.length>0"
+                class="btn btn-primary btn-sm" id="approve"><i class="fa fa-upload"></i>Approve
+            Selected
+        </button>
+        <button (click)="confirmAction('delete')" *ngIf="selectedRfidCards.length>0" class="btn btn-danger btn-sm"
+                id="delete"><i class="fa fa-upload"></i>Delete Selected
+        </button>
+    </div>
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+    <p-table (onLazyLoad)="getBatchDetails(batchNo)" [(selection)]="selectedRfidCards" [columns]="cols" [first]="1"
+             [lazy]="true"  [paginator]="true" [rows]="10"  [autoLayout]="true" [responsive]="true"
+             [sortOrder]="1" [totalRecords]="batchUplaodedRfidCards.length" [value]="batchUplaodedRfidCards">
+        <ng-template let-columns pTemplate="header">
+            <tr>
+                <th>#</th>
+                <th>Rfid Card Number</th>
+                <th style="width: 3em">
+                    <p-tableHeaderCheckbox [disabled]="isPartiallyProcessed"></p-tableHeaderCheckbox>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">
+            <tr>
+                <td>{{i + 1}}</td>
+                <td>{{rowData?.rfid_card_no }}</td>
+
+                <td>
+                    <p-tableCheckbox [disabled]="rowData.status == 'Processed'" [value]="rowData"></p-tableCheckbox>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</app-card>

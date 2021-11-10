@@ -1,0 +1,88 @@
+<app-card [title]="'Company Users List'">
+
+    <div class="text-right mb-1">
+          <span class="p-buttonset">
+                <button (click)="createUser()" icon="pi pi-plus" label="Add User" pButton pRipple
+                        styleClass="p-button-sm"></button>
+                <button (click)="getUsers()" class="p-button-outlined p-button-secondary" icon="pi pi-refresh"
+                        label="Refresh" pButton
+                        pRipple
+                        styleClass="p-button-sm"></button>
+          </span>
+    </div>
+    <p-messages key="message"></p-messages>
+    <p-confirmPopup></p-confirmPopup>
+    <p-table #dt [autoLayout]="true" [columns]="cols" [paginator]="true" [responsive]="true" [rows]="10"
+             [value]="users">
+        <ng-template pTemplate="caption">
+            <div class="ui-helper-clearfix" style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input (input)="dt.filterGlobal($event.target.value, 'contains')" pInputText
+                       placeholder="Global Filter"
+                       style="width:auto" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
+                <button (click)="dt.exportCSV()" icon="fa fa-file-excel-o" iconPos="left" label="CSV" pButton
+                        style="margin-right: 0.5em;" type="button"></button>
+                <button (click)="downloadPdf(cols,users,'Users')" class="ui-button-danger" icon="fa fa-file-pdf-o"
+                        iconPos="left"
+                        label="PDF"
+                        pButton type="button"></button>
+            </div>
+            <br>
+        </ng-template>
+        <ng-template let-columns pTemplate="header">
+            <tr>
+                <th>#</th>
+                <th *ngFor="let col of columns">
+                    {{col.header}}
+                </th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">
+            <tr>
+                <td>{{i + 1}}</td>
+                <td>{{rowData?.first_name + ' ' + rowData?.last_name  }}</td>
+                <td>{{rowData?.email  }}</td>
+                <td>{{rowData?.phone  }}</td>
+                <td>{{rowData?.role?.name  }}</td>
+                <td>{{rowData?.scheme?.name  }}</td>
+                <td>
+                    <ng-container *ngIf="!rowData?.status">
+                        <p-tag icon="pi pi-times" severity="danger" value="Inactive"></p-tag>
+                    </ng-container>
+                    <span *ngIf="rowData?.status">
+                        <p-tag icon="pi pi-check" severity="success" value="Active"></p-tag>
+                    </span>
+                </td>
+                <td class="table-actions">
+                    <div class="p-sm-2">
+                        <i (click)="editUser(rowData)" class="pi pi-pencil"
+                           pTooltip="Edit User"
+                        ></i>
+                    </div>
+                    <ng-container *ngIf="!rowData.status">
+                        <div class="p-sm-2">
+                            <i (click)="confirmAction($event,true,rowData)" class="pi pi-plus text-primary"
+                               pTooltip="Activate User"></i>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="rowData.status">
+                        <div class="p-sm-2">
+                            <i (click)="confirmAction($event,false,rowData)" class="pi pi-times text-danger"
+                               pTooltip="Deactivate User">
+                            </i>
+                        </div>
+                    </ng-container>
+                </td>
+
+            </tr>
+        </ng-template>
+        <ng-template let-columns pTemplate="emptymessage">
+            <tr>
+                <td [attr.colspan]="cols.length+2">
+                    <b>No records found</b>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</app-card>

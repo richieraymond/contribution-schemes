@@ -1,0 +1,52 @@
+<app-card [title]="'Add Admin'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <form (ngSubmit)="addUser()" [formGroup]="userForm">
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="first_name">First Name</label>
+                <input (blur)="validateUserForm()" class="w-full" formControlName="first_name"
+                       id="first_name"
+                       pInputText type="text">
+                <span *ngIf="formErrors.firstname"
+                      class="text-danger text-left">{{ formErrors.firstname }}</span>
+            </div>
+            <div class="field col-6 ">
+                <label for="last_name">Last Name</label>
+                <input (blur)="validateUserForm()" class="w-full" formControlName="last_name" id="last_name"
+                       pInputText type="text">
+                <span *ngIf="formErrors.lastname"
+                      class="text-danger text-left">{{ formErrors.lastname }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="phone">Phone</label>
+                <input (blur)="validateUserForm()" class="w-full" formControlName="phone" id="phone"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.phone"
+                      class="text-danger text-left">{{ formErrors.phone }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <label for="email">Email</label>
+                <input (blur)="validateUserForm()" class="w-full" formControlName="email" id="email"
+                       pInputText
+                       type="text">
+                <span *ngIf="formErrors.email"
+                      class="text-danger text-left">{{ formErrors.email }}</span>
+            </div>
+            <div class="field col-6 md:col-12">
+                <p-dropdown [filter]="true" [options]="roles" [showClear]="true" [style]="{'display': 'flex'}"
+                            dataKey="id" filterBy="name"
+                            formControlName="role_id" optionLabel="name" optionValue="id" placeholder="Select a Role">
+                    <ng-template let-role pTemplate="item">
+                        <div>{{role.name}}</div>
+                    </ng-template>
+                </p-dropdown>
+                <span *ngIf="formErrors.role_id"
+                      class="text-danger text-left">{{ formErrors.role_id }}</span>
+            </div>
+        </div>
+        <div class="formgrid grid submit">
+            <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
+        </div>
+    </form>
+</app-card>

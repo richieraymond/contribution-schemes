@@ -1,0 +1,17 @@
+<app-card [title]="'Bulk Upload RFID Cards'">
+    <p-messages [closable]="true" key="message"></p-messages>
+
+    <form (ngSubmit)="submitFile()" enctype="multipart/form-data">
+        <div class="row">
+
+            <div class="col-md-6">
+                <input type="file" id="fileInput" name="file"/>
+            </div>
+            <div class="formgrid grid submit">
+                <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
+            </div>
+
+        </div>
+    </form>
+
+</app-card>

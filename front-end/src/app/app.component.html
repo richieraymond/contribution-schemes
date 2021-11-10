@@ -1,0 +1,6 @@
+<router-outlet>
+    <app-spinner></app-spinner>
+</router-outlet>
+<div *ngIf="loaderService.loading$ | async" class="spinner-wrapper">
+    <app-loader></app-loader>
+</div>

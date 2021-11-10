@@ -1,0 +1,35 @@
+<app-card [title]="'Modify Permissions'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+    <div class="text-right mb-1">
+          <span class="p-buttonset">
+                <button (click)="createUserRole()" icon="pi pi-plus" label="Add Role" pButton pRipple
+                        styleClass="p-button-sm"></button>
+                <button (click)="goToRoles()" class="p-button-outlined p-button-secondary"
+                        icon="pi pi-check" label="Done" pButton
+                        pRipple
+                        styleClass="p-button-sm"></button>
+          </span>
+    </div>
+    <div class="p-grid">
+        <p-pickList
+                (onMoveToSource)="deletePrivilage($event)"
+                (onMoveToTarget)="addPrivilage($event)"
+                [showSourceControls]="false"
+                [showTargetControls]="false"
+                [sourceHeader]="'Available Permissions'"
+                [source]="permissionSource"
+                [targetHeader]="'Assigned Permissions'"
+                [target]="permissionTarget"
+                filterBy="description"
+                responsive="true"
+                sourceFilterPlaceholder="Search..."
+                targetFilterPlaceholder="Search...">
+            <ng-template let-priv pTemplate="item">
+                <div class="ui-helper-clearfix">
+                    <div style="font-size:14px;float:left;">{{priv.description}}</div>
+                </div>
+            </ng-template>
+        </p-pickList>
+    </div>
+</app-card>

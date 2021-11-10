@@ -1,0 +1,48 @@
+<app-card [title]="'Uploaded Sites'">
+    <p-messages [closable]="true" key="message"></p-messages>
+    <div class="row">
+        <button (click)="confirmAction('process');" *ngIf="selectedSites.length>0"
+                class="btn btn-primary btn-sm" id="approve"><i class="fa fa-upload"></i>Approve
+            Selected
+        </button>
+        <button (click)="confirmAction('delete')" *ngIf="selectedSites.length>0" class="btn btn-danger btn-sm"
+                id="delete"><i class="fa fa-upload"></i>Delete Selected
+        </button>
+    </div>
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog>
+
+    <p-table (onLazyLoad)="getBatchDetails(batchNo)" [(selection)]="selectedSites" [columns]="cols" [first]="1"
+             [lazy]="true"  [paginator]="true" [rows]="10"  [autoLayout]="true" [responsive]="true"
+             [sortOrder]="1" [totalRecords]="batchUplaodedSites.length" [value]="batchUplaodedSites">
+        <ng-template let-columns pTemplate="header">
+            <tr>
+                <th>#</th>
+                <th>Site Name</th>
+                <th>Gps Cordinates</th>
+                <th>Contact Person</th>
+                <th>Phone</th>
+                <th>Location</th>
+
+                <th style="width: 3em">
+                    <p-tableHeaderCheckbox [disabled]="isPartiallyProcessed"></p-tableHeaderCheckbox>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">
+            <tr>
+                <td>{{i + 1}}</td>
+                <td>{{rowData?.site_name }}</td>
+                <td>{{rowData?.gps_cordinates }}</td>
+                <td>{{rowData?.contact_person }}</td>
+                <td>{{rowData?.phone }}</td>
+                <td>{{rowData?.location }}</td>
+
+
+                <td>
+                    <p-tableCheckbox [disabled]="rowData.status == 'Processed'" [value]="rowData"></p-tableCheckbox>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+</app-card>
