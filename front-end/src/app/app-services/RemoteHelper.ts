@@ -20,7 +20,7 @@ export class RemoteHelper {
     }
 
     private uatServerUrl = 'http://localhost:8000/api/';
-    private serverUrl = 'https://peecapi.akuagroup.xyz/api/';
+    private serverUrl = 'https://uat.vantage.co.ug/contribution-api/api/';
 
     sendPostToServer(uri: String, requestType: any, data: any) {
         this.updateLoggedInUser();
