@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Api\Contributions;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\ContributorSelfRegistrationRequest;
 use App\Http\Requests\PostPaymentRequest;
+use App\Notifications\WhatsappNotification;
+use App\Notifications\ContributionNotification;
 use App\Models\Contribution;
 use App\Models\Contributor;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\DB;
 
 class ContributionController extends BaseController
@@ -187,7 +191,7 @@ class ContributionController extends BaseController
         }
     }
 
-    public function getContributorPaymentDetails(){
+    public function getContributorPaymentDetails($sasula_ref){
 
         try {
 
@@ -198,18 +202,19 @@ class ContributionController extends BaseController
             // // ->join('contributors U', 'C.contributor_id', '=', 'U.id')
             // ->leftJoin('branches B', 'C.branch_id', '=', 'B.id')
             // ->select('C.id', 'C.contributor_id', 'C.scheme_id', 'C.branch_id', 'C.project_id', 'C.amount', 'C.sasula_reference',
-            // 'C.payer_phone', 'C.payment_channel', 'C.status', 'C.channel_tran_id', 'C.channel_tran_date', 'C.teal_id', 
+            // 'C.payer_phone', 'C.payment_channel', 'C.status', 'C.channel_tran_id', 'C.channel_tran_date', 'C.teal_id',
             // 'C.ip_address', 'C.user_agent', 'C.created_at', 'C.updated_at', "CONCAT(U.first_name,' ',U.last_name) AS contributer_name", 'U.email',
             // 'S.name AS scheme_name', 'S.location', 'B.name AS branch_name', "'CSM' AS branch_cd", 'P.name AS project_name')
             // ->get();
 
             $contributorsDetails = DB::select("SELECT C.id, C.contributor_id, C.scheme_id, C.branch_id, C.project_id, C.amount, C.sasula_reference,
-                                            C.payer_phone, C.payment_channel, C.status, C.channel_tran_id, C.channel_tran_date, C.teal_id, 
+                                            C.payer_phone, C.payment_channel, C.status, C.channel_tran_id, C.channel_tran_date, C.teal_id,
                                             C.ip_address, C.user_agent, C.created_at, C.updated_at, CONCAT(U.first_name,' ',U.last_name) AS contributer_name, U.email,
                                             S.name AS scheme_name, S.location, B.name AS branch_name, 'CSM' AS branch_cd, P.name AS project_name
                                             FROM contributions C INNER JOIN contributors U on C.contributor_id = U.id INNER JOIN schemes S ON C.scheme_id = S.id
-                                            LEFT JOIN branches B ON C.branch_id = B.id INNER JOIN projects P ON C.project_id = P.id WHERE C.sasula_reference= '1000000001' ");
+                                            LEFT JOIN branches B ON C.branch_id = B.id INNER JOIN projects P ON C.project_id = P.id WHERE C.sasula_reference= $sasula_ref ");
 
+        // return $this->sendResponse(true, 'Customer details', 200, $contributorsDetails);
         return $this->sendResponse(true, 'Customer details', 200, ['Details'=>$contributorsDetails]);
         } catch (\Exception $ex) {
             return $this->sendResponse(
@@ -219,11 +224,18 @@ class ContributionController extends BaseController
             );
         }
 
-        public function receivePayments(Contribution $request){
+    }
 
-        }
+    public function receivePayments(Request $request){
+        $contribution= Contribution::where("sasula_reference",$request['sasula_reference'])->first();
 
-        
+        $contribution->status = true;
+        $contribution->save();
+        $contributor = Contributor::findOrFail( $contribution->contributor_id);
+        $contributor->notify(new ContributionNotification($contribution->payer_phone, $contribution->amount, $contribution->sasula_reference, $contributor->first_name));
+        $message = config('app.name') . ' - PAYMENT RECEIVED Deposit of UGX '.number_format($contribution->amount).' has been received for: '.$contribution->sasula_reference.'Thank you for using '.config('app.name');
+        $contributor->notify(new WhatsappNotification($message));
+        return $this->sendResponse(true, 'Customer details', 200, ['response'=>$contribution, "return_Code"=>0] );
     }
 
 }

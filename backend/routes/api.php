@@ -49,7 +49,8 @@ Route::group(['prefix' => 'contribution'], function () {
     Route::get('get-branches/{schemeId}', 'App\Http\Controllers\Api\Contributions\ContributionController@getBranches');
     Route::get('get-projects/{schemeId}', 'App\Http\Controllers\Api\Contributions\ContributionController@getProjects');
     Route::post('make-payment', 'App\Http\Controllers\Api\Contributions\ContributionController@postPayment');
-    Route::get('get-contributor-details', 'App\Http\Controllers\Api\Contributions\ContributionController@getContributorPaymentDetails');
+    Route::get('get-contributor-details/{sasulaRef}', 'App\Http\Controllers\Api\Contributions\ContributionController@getContributorPaymentDetails');
+    Route::post('receive-payment', 'App\Http\Controllers\Api\Contributions\ContributionController@receivePayments');
 });
 
 
