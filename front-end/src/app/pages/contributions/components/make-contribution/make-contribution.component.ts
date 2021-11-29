@@ -273,6 +273,7 @@ export class MakeContributionComponent extends CommonComponent implements OnInit
         this.validateContributorForm();
         if (this.makePaymentForm.invalid) {
             return;
+        
         }
         this.sendRequestToServer('contribution/make-payment',
             'post',
