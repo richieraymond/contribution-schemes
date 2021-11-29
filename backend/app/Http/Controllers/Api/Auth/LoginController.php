@@ -39,6 +39,7 @@ class LoginController extends BaseController
                 $assignedpermissions = ModelsRolePermissionAssoc::where('role_id', $user->role_id)
                     ->where('status', true)->get();
             }
+            // return $user;
         } else {
             return $this->sendResponse(false, 'Invalid credentials', 200);
         }

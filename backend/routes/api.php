@@ -40,7 +40,7 @@ Route::group(['prefix' => 'scheme'], function () {
     Route::resource('branch', 'App\Http\Controllers\Api\Scheme\BranchController');
     Route::resource('project', 'App\Http\Controllers\Api\Scheme\ProjectController');
 });
-
+ 
 
 Route::group(['prefix' => 'contribution'], function () {
     Route::get('verify-contributor/{contributorTel}', 'App\Http\Controllers\Api\Contributions\ContributionController@getContributorDetails');
@@ -49,6 +49,7 @@ Route::group(['prefix' => 'contribution'], function () {
     Route::get('get-branches/{schemeId}', 'App\Http\Controllers\Api\Contributions\ContributionController@getBranches');
     Route::get('get-projects/{schemeId}', 'App\Http\Controllers\Api\Contributions\ContributionController@getProjects');
     Route::post('make-payment', 'App\Http\Controllers\Api\Contributions\ContributionController@postPayment');
+    Route::get('get-contributor-details', 'App\Http\Controllers\Api\Contributions\ContributionController@getContributorPaymentDetails');
 });
 
 

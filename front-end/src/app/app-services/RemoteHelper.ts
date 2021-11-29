@@ -27,6 +27,7 @@ export class RemoteHelper {
         if (!environment.production) {
             this.serverUrl = this.uatServerUrl;
         }
+        
         let request;
         switch (requestType) {
             case 'post':
@@ -58,6 +59,7 @@ export class RemoteHelper {
     }
 
     postRequest(uri: any, data: any): Observable<any> {
+        console.log(this.serverUrl + uri);
         return this.http.post<any>(this.serverUrl + uri, data, this.httpOptions);
     }
 
