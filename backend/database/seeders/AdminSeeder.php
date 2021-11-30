@@ -23,14 +23,14 @@ class AdminSeeder extends Seeder
             $role = Role::create(['name' => 'Super Admin', 'is_admin_role' => false]);
             $admin = Admin::updateOrCreate(
                 [
-                    'email' => 'deoflora@gmail.com'
+                    'email' => 'bash@gmail.com'
                 ],
                 [
-                    'first_name' => 'AFEMA',
+                    'first_name' => 'Bashir',
                     'phone' => '256704655303',
-                    'last_name' => 'DEOGRACIOUS',
-                    'email' => 'deoflora@gmail.com',
-                    'password' => Hash::make('dzsq5pKD'),
+                    'last_name' => 'Saidi',
+                    'email' => 'bash@gmail.com',
+                    'password' => Hash::make('Aa123456'),
                     'role_id' => $role->id,
                     'status' => true
                 ]
@@ -43,7 +43,7 @@ class AdminSeeder extends Seeder
                 RolePermissionAssoc::create(['created_by' => $admin->id, 'role_id' => $role->id, 'permission_id' => $permissions[$i]->id]);
             }
             $this->command->info('Super Admin account migrated successfully:');
-            $this->command->info('Email:deoflora@gmail.com, Password:dzsq5pKD');
+            $this->command->info('bash@gmail.com, Password:Aa123456');
         } catch (Exception $ex) {
             $this->command->error('Unable to migrate super admin account : ' . $ex->getMessage());
         }

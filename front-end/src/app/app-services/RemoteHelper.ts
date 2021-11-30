@@ -20,13 +20,14 @@ export class RemoteHelper {
     }
 
     private uatServerUrl = 'http://localhost:8000/api/';
-    private serverUrl = 'https://peecapi.akuagroup.xyz/api/';
+    private serverUrl = 'https://uat.vantage.co.ug/contribution-api/api/';
 
     sendPostToServer(uri: String, requestType: any, data: any) {
         this.updateLoggedInUser();
         if (!environment.production) {
             this.serverUrl = this.uatServerUrl;
         }
+        
         let request;
         switch (requestType) {
             case 'post':
@@ -58,6 +59,7 @@ export class RemoteHelper {
     }
 
     postRequest(uri: any, data: any): Observable<any> {
+        console.log(this.serverUrl + uri);
         return this.http.post<any>(this.serverUrl + uri, data, this.httpOptions);
     }
 
