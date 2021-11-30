@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Contributions;
 
 use App\Http\Controllers\BaseController;
+use Illuminate\Support\Facades\Http;
 use App\Http\Requests\ContributorSelfRegistrationRequest;
 use App\Http\Requests\PostPaymentRequest;
 use App\Notifications\WhatsappNotification;
@@ -171,7 +172,17 @@ class ContributionController extends BaseController
             $message = 'Payment request processed successfully, move to any of our partner banks to make a payment!';
 
             if ($contribution->payment_channel === 'MOMO') {
+                $contribution = $contribution->refresh();
+
                 $message = 'Payment initiated successfully, please enter your mobile money pin to complete transaction!';
+                $response = Http::post( env('VANTAGE') . 'SasulaMoMo/contributionSchemeRequest', [
+                    'amount' => $contribution->amount,
+                    'sasula_reference' => $contribution->sasula_reference,
+                    'payer_phone'=> $contribution->payer_phone,
+                    'payment_reason' => "Contribution"
+                ]);
+                $response->successful();
+
             }
 
             return $this->sendResponse(
