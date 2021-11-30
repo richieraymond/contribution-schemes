@@ -24,7 +24,7 @@
                       class="text-danger text-left">{{ formErrors.title }}</span>
             </div>
             <div class="field col-6 md:col-12 col-xs-12">
-                <label for="first_name">First Name</label>
+                <label for="first_name">First Name (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="first_name"
                        id="first_name"
                        pInputText type="text">
@@ -32,14 +32,14 @@
                       class="text-danger text-left">{{ formErrors.first_name }}</span>
             </div>
             <div class="field col-6 ">
-                <label for="last_name">Sur Name</label>
+                <label for="last_name">Sur Name (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="last_name" id="last_name"
                        pInputText type="text">
                 <span *ngIf="formErrors.last_name"
                       class="text-danger text-left">{{ formErrors.last_name }}</span>
             </div>
             <div class="field col-6 ">
-                <h5>Gender</h5>
+                <h5>Gender (*)</h5>
                 <div class="p-field-radiobutton">
                     <p-radioButton formControlName="gender" id="female" name="gender" value="FEMALE"></p-radioButton>
                     <label for="female">Female</label>
@@ -54,7 +54,7 @@
         </div>
         <div class="p-fluid p-grid p-formgrid">
             <div class="field col-6">
-                <label for="dob">Date of birth</label>
+                <label for="dob">Date of birth (*)</label>
                 <p-calendar [showIcon]="true" class="w-full" dateFormat="dd.mm.yy" formControlName="dob"
                             id="dob"></p-calendar>
                 <span *ngIf="formErrors.dob"
@@ -84,7 +84,7 @@
                       class="text-danger text-left">{{ formErrors.maritalstatus }}</span>
             </div>
             <div class="field col-6 md:col-12">
-                <label for="phone">Primary Phone Number</label>
+                <label for="phone">Primary Phone Number (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="phone" id="phone"
                        pInputText
                        type="text">
@@ -102,7 +102,7 @@
             </div>
 
             <div class="field col-6 md:col-12">
-                <label for="email">Email</label>
+                <label for="email">Email (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="email" id="email"
                        pInputText
                        type="text">
@@ -111,7 +111,7 @@
             </div>
 
             <div class="field col-6 md:col-12">
-                <label for="home_parish">Home Parish</label>
+                <label for="home_parish">Home Parish (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="home_parish" id="home_parish"
                        pInputText
                        type="text">
@@ -120,7 +120,7 @@
             </div>
 
             <div class="field col-6 md:col-12">
-                <label for="center">Center</label>
+                <label for="center">Center (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="center" id="center"
                        pInputText
                        type="text">
@@ -129,7 +129,7 @@
             </div>
 
             <div class="field col-6 ">
-                <label for="education_level">Highest Education Qualification.</label>
+                <label for="education_level">Highest Education Qualification. (*)</label>
                 <p-dropdown [filter]="true"
                             [options]="education_levels"
                             [showClear]="true"
@@ -151,7 +151,7 @@
             </div>
 
             <div class="field col-6 md:col-12">
-                <label for="residence">Residence in kampala</label>
+                <label for="residence">Residence in kampala (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="residence" id="residence"
                        pInputText
                        type="text">
@@ -243,7 +243,7 @@
         <!-------Other relations-------->
         <div class="formgrid grid">
             <div class="field col-6 md:col-12 col-xs-12">
-                <label for="biological_mother">Biological Mother</label>
+                <label for="biological_mother">Biological Mother (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="biological_mother"
                        id="biological_mother"
                        pInputText type="text">
@@ -251,7 +251,7 @@
                       class="text-danger text-left">{{ formErrors.biological_mother }}</span>
             </div>
             <div class="field col-6 md:col-12 col-xs-12">
-                <label for="biological_father">Biological Father</label>
+                <label for="biological_father">Biological Father (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="biological_father"
                        id="biological_father"
                        pInputText type="text">
@@ -271,7 +271,7 @@
         <!---------Next of kin---------->
         <div class="formgrid grid">
             <div class="field col-6 md:col-12 col-xs-12">
-                <label for="next_of_kin">Next of kin</label>
+                <label for="next_of_kin">Next of kin (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="next_of_kin"
                        id="next_of_kin"
                        pInputText type="text">
@@ -279,7 +279,7 @@
                       class="text-danger text-left">{{ formErrors.next_of_kin }}</span>
             </div>
             <div class="field col-6 md:col-12">
-                <label for="kin_telephone">Telephone 1</label>
+                <label for="kin_telephone">Telephone 1 (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="kin_telephone"
                        id="kin_telephone"
                        pInputText
@@ -288,7 +288,7 @@
                       class="text-danger text-left">{{ formErrors.kin_telephone }}</span>
             </div>
             <div class="field col-6 md:col-12">
-                <label for="other_kin_telephone">Telephone 1</label>
+                <label for="other_kin_telephone">Telephone 2</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="other_kin_telephone"
                        id="other_kin_telephone"
                        pInputText
@@ -298,7 +298,7 @@
             </div>
 
             <div class="field col-6 md:col-12">
-                <label for="kin_email">Email</label>
+                <label for="kin_email">Email (*)</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="kin_email" id="kin_email"
                        pInputText
                        type="text">
@@ -306,7 +306,7 @@
                       class="text-danger text-left">{{ formErrors.kin_email }}</span>
             </div>
             <div class="field col-6 md:col-12">
-                <label for="other_kin_email">Email</label>
+                <label for="other_kin_email">Other Email </label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="other_kin_email"
                        id="other_kin_email"
                        pInputText

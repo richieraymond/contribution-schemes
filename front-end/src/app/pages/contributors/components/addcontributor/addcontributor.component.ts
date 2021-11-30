@@ -92,7 +92,7 @@ export class AddContributorComponent extends CommonComponent implements OnInit, 
             required: 'Residence is required'
         },
         biological_mother: {
-            required: 'Residence is required'
+            required: 'Biological mother is required'
         },
         biological_father: {
             required: 'Biological father is required'
