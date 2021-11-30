@@ -68,7 +68,7 @@ export class AddProjectComponent extends CommonComponent implements OnInit {
             'frequency': [null, []],
             'frequency_unit': [null, []],
             'require_fixed_amounts': [false, [Validators.required]],
-            'allow_installments': [null, []],
+            'allow_installments': [true, []],
             'amount': [0, []],
             'penalty_when_missed': [0, []],
         });
