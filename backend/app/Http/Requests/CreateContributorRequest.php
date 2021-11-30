@@ -42,7 +42,7 @@ class CreateContributorRequest extends FormRequest
             'residence' => 'required',
             'biological_mother' => 'required',
             'biological_father' => 'required',
-            'spouse' => 'required',
+            'spouse' => 'nullable',
             'next_of_kin' => 'required',
             'kin_telephone' => 'required',
             'other_kin_telephone' => 'nullable|regex:/^\+?\d{3} ?\d{3} ?\d{3} ?\d{3}$/',

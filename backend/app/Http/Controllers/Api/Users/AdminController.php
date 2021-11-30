@@ -87,6 +87,7 @@ class AdminController extends BaseController
             $admin->last_name = $data['last_name'];
             $admin->email = $data['email'];
             $admin->phone = $data['phone'];
+            $admin->password = Hash::make($password);
             $admin->created_by = FacadesAuth::user()->id;
             $admin->save();
             $admin->notify(new AccountCreationNotification($admin, $password));
