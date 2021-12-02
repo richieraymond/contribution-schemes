@@ -54,9 +54,19 @@ class SchemeController extends BaseController
     public function store(CreateSchemeRequest $request)
     {
         try {
+            $maxschemeref =  Scheme::max('scheme_ref');
+            $nextschemenumber = null;
+
+            if ($maxschemeref) {
+                $nextschemenumber = $maxschemeref + 1;
+            } else {
+                $nextschemenumber = 10000;
+            }
+
             $data = $request->validated();
             $scheme = new Scheme();
             $scheme->name = $data['name'];
+            $scheme->scheme_ref = $nextschemenumber;
             $scheme->location = $data['location'];
             $scheme->contact_person = $data['contact_person'];
             $scheme->email = $data['email'];
