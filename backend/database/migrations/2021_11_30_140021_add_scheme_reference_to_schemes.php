@@ -14,7 +14,7 @@ class AddSchemeReferenceToSchemes extends Migration
     public function up()
     {
         Schema::table('schemes', function (Blueprint $table) {
-            //
+            $table->integer('scheme_ref');
         });
     }
 
@@ -26,7 +26,7 @@ class AddSchemeReferenceToSchemes extends Migration
     public function down()
     {
         Schema::table('schemes', function (Blueprint $table) {
-            //
+            $table->dropColumn('scheme_ref');
         });
     }
 }
