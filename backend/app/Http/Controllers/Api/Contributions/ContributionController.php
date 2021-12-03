@@ -10,6 +10,7 @@ use App\Notifications\WhatsappNotification;
 use App\Notifications\ContributionNotification;
 use App\Models\Contribution;
 use App\Models\Contributor;
+use App\Models\Scheme;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
@@ -171,18 +172,18 @@ class ContributionController extends BaseController
 
             $message = 'Payment request processed successfully, move to any of our partner banks to make a payment!';
 
+            $scheme = Scheme::findOrFail($validated['scheme_id']);
             if ($contribution->payment_channel === 'MOMO') {
                 $contribution = $contribution->refresh();
-
                 $message = 'Payment initiated successfully, please enter your mobile money pin to complete transaction!';
-                $response = Http::post( env('VANTAGE') . 'SasulaMoMo/contributionSchemeRequest', [
+                $response = Http::post(env('VANTAGE') . 'SasulaMoMo/contributionSchemeRequest', [
                     'amount' => $contribution->amount,
+                    'business_cd' => 'NVC' . $scheme->scheme_ref,
                     'sasula_reference' => $contribution->sasula_reference,
-                    'payer_phone'=> $contribution->payer_phone,
+                    'payer_phone' => $contribution->payer_phone,
                     'payment_reason' => "Contribution"
                 ]);
                 $response->successful();
-
             }
 
             return $this->sendResponse(
@@ -202,7 +203,8 @@ class ContributionController extends BaseController
         }
     }
 
-    public function getContributorPaymentDetails($sasula_ref){
+    public function getContributorPaymentDetails($sasula_ref)
+    {
 
         try {
 
@@ -225,8 +227,8 @@ class ContributionController extends BaseController
                                             FROM contributions C INNER JOIN contributors U on C.contributor_id = U.id INNER JOIN schemes S ON C.scheme_id = S.id
                                             LEFT JOIN branches B ON C.branch_id = B.id INNER JOIN projects P ON C.project_id = P.id WHERE C.sasula_reference= $sasula_ref ");
 
-        // return $this->sendResponse(true, 'Customer details', 200, $contributorsDetails);
-        return $this->sendResponse(true, 'Customer details', 200, ['Details'=>$contributorsDetails]);
+            // return $this->sendResponse(true, 'Customer details', 200, $contributorsDetails);
+            return $this->sendResponse(true, 'Customer details', 200, ['Details' => $contributorsDetails]);
         } catch (\Exception $ex) {
             return $this->sendResponse(
                 false,
@@ -234,19 +236,18 @@ class ContributionController extends BaseController
                 400
             );
         }
-
     }
 
-    public function receivePayments(Request $request){
-        $contribution= Contribution::where("sasula_reference",$request['sasula_reference'])->first();
+    public function receivePayments(Request $request)
+    {
+        $contribution = Contribution::where("sasula_reference", $request['sasula_reference'])->first();
 
         $contribution->status = true;
         $contribution->save();
-        $contributor = Contributor::findOrFail( $contribution->contributor_id);
+        $contributor = Contributor::findOrFail($contribution->contributor_id);
         $contributor->notify(new ContributionNotification($contribution->payer_phone, $contribution->amount, $contribution->sasula_reference, $contributor->first_name));
-        $message = config('app.name') . ' - PAYMENT RECEIVED Deposit of UGX '.number_format($contribution->amount).' has been received for: '.$contribution->sasula_reference.'Thank you for using '.config('app.name');
+        $message = config('app.name') . ' - PAYMENT RECEIVED Deposit of UGX ' . number_format($contribution->amount) . ' has been received for: ' . $contribution->sasula_reference . 'Thank you for using ' . config('app.name');
         $contributor->notify(new WhatsappNotification($message));
-        return $this->sendResponse(true, 'Customer details', 200, ['response'=>$contribution, "return_Code"=>0] );
+        return $this->sendResponse(true, 'Customer details', 200, ['response' => $contribution, "return_Code" => 0]);
     }
-
 }
