@@ -37,7 +37,7 @@ class CreateContributorsTable extends Migration
             $table->string('residence');
             $table->string('biological_mother');
             $table->string('biological_father');
-            $table->string('spouse');
+            $table->string('spouse')->nullable();
             $table->string('next_of_kin');
             $table->string('kin_telephone');
             $table->string('other_kin_telephone')->nullable();

@@ -30,7 +30,7 @@ class CreateProjectRequest extends FormRequest
             'frequency_unit' => 'nullable|string',
             'require_fixed_amounts' => 'boolean|required',
             'allow_installments' => 'boolean|required',
-            'amount' => 'numeric|min:1',
+            'amount' => 'numeric|min:0',
             'penalty_when_missed' => 'numeric|required',
         ];
     }
