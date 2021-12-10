@@ -48,8 +48,12 @@ const routes: Routes = [
         path: 'contribution',
         component: ContributorComponent,
         loadChildren: () => import('./pages/contributions/contributions.module').then(m => m.ContributionsModule)
+    },
+    {
+        path: 'reports',
+        component: AdminComponent,
+        loadChildren: () => import('./pages/reports/reports.module').then(m => m.ReportsModule)
     }
-
 ];
 
 @NgModule({

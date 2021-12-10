@@ -40,7 +40,7 @@ Route::group(['prefix' => 'scheme'], function () {
     Route::resource('branch', 'App\Http\Controllers\Api\Scheme\BranchController');
     Route::resource('project', 'App\Http\Controllers\Api\Scheme\ProjectController');
 });
- 
+
 
 Route::group(['prefix' => 'contribution'], function () {
     Route::get('verify-contributor/{contributorTel}', 'App\Http\Controllers\Api\Contributions\ContributionController@getContributorDetails');
@@ -51,6 +51,12 @@ Route::group(['prefix' => 'contribution'], function () {
     Route::post('make-payment', 'App\Http\Controllers\Api\Contributions\ContributionController@postPayment');
     Route::get('get-contributor-details/{sasulaRef}', 'App\Http\Controllers\Api\Contributions\ContributionController@getContributorPaymentDetails');
     Route::post('receive-payment', 'App\Http\Controllers\Api\Contributions\ContributionController@receivePayments');
+});
+
+
+Route::group(['prefix' => 'reports'], function () {
+    Route::post('contributors', 'App\Http\Controllers\Api\RefData\ReportController@getMemberReports');
+    Route::post('contributions', 'App\Http\Controllers\Api\RefData\ReportController@getPaymentsReport');
 });
 
 

@@ -281,6 +281,41 @@ export class AdminComponent extends CommonComponent implements OnInit {
             ]
         };
 
+        const reportsMenu = {
+            label: 'Reports',
+            main: [
+                {
+                    state: 'reports',
+                    short_label: 'R',
+                    name: 'Reports',
+                    type: 'sub',
+                    icon: 'ti-bar-chart-alt',
+                    children: []
+                }
+            ]
+        };
+
+        /**
+         * Reports
+         */
+        if (this.user.canManageMembers) {
+            reportsMenu.main[0].children.push({
+                main_state: 'reports',
+                state: 'contributors-report',
+                name: 'Members Report',
+                type: 'link',
+                children: []
+            });
+        }
+        if (this.user.canManageProjects) {
+            reportsMenu.main[0].children.push({
+                main_state: 'reports',
+                state: 'contributions-report',
+                name: 'Contributions Report',
+                type: 'link',
+                children: []
+            });
+        }
         const settingsMenu = {
             label: 'Settings',
             main: [
