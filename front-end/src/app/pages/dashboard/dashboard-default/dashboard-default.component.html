@@ -81,4 +81,27 @@
         </div>
     </div>
 
+
+    <div  *ngIf="user.canManageAdmins" class="col-md-6 col-xl-6">
+        <div class="card widget-card-1">
+            <div class="card-block-small">
+                <i class="icofont icofont-users-social bg-c-green card1-icon"></i>
+                <span class="text-c-green f-w-600">Admins</span>
+                <!-- <h4>{{admins}}</h4> -->
+                <chart [type]="type" [data]="data" [options]="options1"></chart>
+                <div>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+
+    <div  *ngIf="user.canManageAdmins" class="col-md-6 col-xl-6">
+
+        <!-- <p-chart type="line" [data]="data"></p-chart> -->
+        <!-- <p-chart type="line" [data]="data" [options]="options1"></p-chart> -->
+
+    </div>
+
 </div>

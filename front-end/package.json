@@ -31,6 +31,7 @@
     "angular2-tinymce": "^3.3.0",
     "bootstrap": "^4.0.0",
     "c3": "^0.4.21",
+    "chart.js": "^3.6.2",
     "core-js": "^2.4.1",
     "css-animator": "^2.3.0",
     "d3": "^4.13.0",

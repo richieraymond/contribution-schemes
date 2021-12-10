@@ -29,7 +29,7 @@ class DashboardController extends BaseController
                     ->count('id');
                 $users = DB::table('users')
                     ->where('scheme_id', Auth::user()->scheme_id)
-                    ->count('id');;
+                    ->count('id');
                 $branches = DB::table('branches')
                     ->where('scheme_id', Auth::user()->scheme_id)
                     ->count('id');
@@ -40,7 +40,7 @@ class DashboardController extends BaseController
                 $contributors = DB::table('contributors')
                     ->count('id');
                 $users = DB::table('users')
-                    ->count('id');;
+                    ->count('id');
                 $branches = DB::table('branches')
                     ->count('id');
                 $projects = DB::table('projects')
