@@ -529,6 +529,9 @@ export class AdminComponent extends CommonComponent implements OnInit {
         if (bulkUploadMenu.main[0].children.length > 0) {
             this.menuItems.add(bulkUploadMenu);
         }
+        if (reportsMenu.main[0].children.length > 0) {
+            this.menuItems.add(reportsMenu);
+        }
         if (settingsMenu.main[0].children.length > 0) {
             this.menuItems.add(settingsMenu);
         }
