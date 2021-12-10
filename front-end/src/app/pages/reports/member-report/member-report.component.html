@@ -1,10 +1,8 @@
-<app-card [title]="'Scheme Users List'">
+<app-card [title]="'Member Report List'">
 
     <div class="text-right mb-1">
           <span class="p-buttonset">
-                <button (click)="createUser()" icon="pi pi-plus" label="Add User" pButton pRipple
-                        styleClass="p-button-sm"></button>
-                <button (click)="getUsers()" class="p-button-outlined p-button-secondary" icon="pi pi-refresh"
+                <button (click)="getRecords()" class="p-button-outlined p-button-secondary" icon="pi pi-refresh"
                         label="Refresh" pButton
                         pRipple
                         styleClass="p-button-sm"></button>
@@ -13,7 +11,7 @@
     <p-messages key="message"></p-messages>
     <p-confirmPopup></p-confirmPopup>
     <p-table #dt [autoLayout]="true" [columns]="cols" [paginator]="true" [responsive]="true" [rows]="10"
-             [value]="users">
+             [value]="contributors" responsive>
         <ng-template pTemplate="caption">
             <div class="ui-helper-clearfix" style="text-align: right">
                 <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
@@ -22,7 +20,8 @@
                        style="width:auto" type="text">&nbsp;&nbsp;&nbsp;&nbsp;
                 <button (click)="dt.exportCSV()" icon="fa fa-file-excel-o" iconPos="left" label="CSV" pButton
                         style="margin-right: 0.5em;" type="button"></button>
-                <button (click)="downloadPdf(cols,users,'Users')" class="ui-button-danger" icon="fa fa-file-pdf-o"
+                <button (click)="downloadPdf(cols,contributors,'Contributors')" class="ui-button-danger"
+                        icon="fa fa-file-pdf-o"
                         iconPos="left"
                         label="PDF"
                         pButton type="button"></button>
@@ -44,8 +43,6 @@
                 <td>{{rowData?.first_name + ' ' + rowData?.last_name  }}</td>
                 <td>{{rowData?.email  }}</td>
                 <td>{{rowData?.phone  }}</td>
-                <td>{{rowData?.role?.name  }}</td>
-                <td>{{rowData?.scheme?.name  }}</td>
                 <td>
                     <ng-container *ngIf="!rowData?.status">
                         <p-tag icon="pi pi-times" severity="danger" value="Inactive"></p-tag>
@@ -54,27 +51,6 @@
                         <p-tag icon="pi pi-check" severity="success" value="Active"></p-tag>
                     </span>
                 </td>
-                <td class="table-actions">
-                    <div class="p-sm-2">
-                        <i (click)="editUser(rowData)" class="pi pi-pencil"
-                           pTooltip="Edit User"
-                        ></i>
-                    </div>
-                    <ng-container *ngIf="!rowData.status">
-                        <div class="p-sm-2">
-                            <i (click)="confirmAction($event,true,rowData)" class="pi pi-plus text-primary"
-                               pTooltip="Activate User"></i>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngIf="rowData.status">
-                        <div class="p-sm-2">
-                            <i (click)="confirmAction($event,false,rowData)" class="pi pi-times text-danger"
-                               pTooltip="Deactivate User">
-                            </i>
-                        </div>
-                    </ng-container>
-                </td>
-
             </tr>
         </ng-template>
         <ng-template let-columns pTemplate="emptymessage">
