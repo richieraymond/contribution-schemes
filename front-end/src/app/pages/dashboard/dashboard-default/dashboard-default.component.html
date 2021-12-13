@@ -82,26 +82,44 @@
     </div>
 
 
-    <div  *ngIf="user.canManageAdmins" class="col-md-6 col-xl-6">
-        <div class="card widget-card-1">
+    <div   class="col-md-12 col-xl-12">
+
+        <div class="row">
+            <div   class="col-md-6 col-xl-6">
+                <div class="card widget-card-1">
+                    <div class="card-block-small">
+                        <chart type="line" [data]="lineGraph" [options]="option"></chart>
+
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div   class="col-md-6 col-xl-6">
+                <div class="card widget-card-1">
+                    <div class="card-block-small">
+                        <chart type="radar" [data]="polarGraph" [options]="option"></chart>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- <div class="card widget-card-1">
             <div class="card-block-small">
-                <i class="icofont icofont-users-social bg-c-green card1-icon"></i>
-                <span class="text-c-green f-w-600">Admins</span>
-                <!-- <h4>{{admins}}</h4> -->
-                <chart [type]="type" [data]="data" [options]="options1"></chart>
+
+                <chart [type]="type" [data]="lineGraph" [options]="options1"></chart>
                 <div>
                 </div>
             </div>
-        </div>
+        </div> -->
         
-
     </div>
 
-    <div  *ngIf="user.canManageAdmins" class="col-md-6 col-xl-6">
 
-        <!-- <p-chart type="line" [data]="data"></p-chart> -->
-        <!-- <p-chart type="line" [data]="data" [options]="options1"></p-chart> -->
-
-    </div>
 
 </div>
