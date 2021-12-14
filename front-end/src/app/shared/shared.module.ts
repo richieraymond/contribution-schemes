@@ -52,6 +52,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {ManageSchemeGuard} from '../pages/auth/guards/manage-scheme.guard';
 import {StepsModule} from 'primeng/steps';
 import {AccordionModule} from "primeng/accordion";
+import {ChartModule} from 'primeng/chart';
 
 const primeNgModules = [
     MessagesModule,
@@ -83,6 +84,7 @@ const primeNgModules = [
     HttpClientModule,
     StepsModule,
     AccordionModule
+    ChartModule,
 ];
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
