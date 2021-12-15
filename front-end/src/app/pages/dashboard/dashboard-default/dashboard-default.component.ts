@@ -88,6 +88,8 @@ export class DashboardDefaultComponent extends CommonComponent implements OnInit
             JSON.stringify(null),
             true,
             function (response: any) {
+                console.log('*****************************************');
+                
                 console.log(response);
                 
                 if (response.success) {
@@ -104,6 +106,10 @@ export class DashboardDefaultComponent extends CommonComponent implements OnInit
                 }
             }, function (error: any) {
                 controller.commonService.showError(error.error.message);
+                console.log('++++++++++++++++++++++++++++++++++++++++++++');
+                
+                console.log(error);
+                
             });
     }
 
