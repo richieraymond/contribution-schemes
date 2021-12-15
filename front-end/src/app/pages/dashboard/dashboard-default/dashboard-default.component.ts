@@ -89,7 +89,6 @@ export class DashboardDefaultComponent extends CommonComponent implements OnInit
             true,
             function (response: any) {
                 console.log('*****************************************');
-                
                 console.log(response);
                 
                 if (response.success) {
