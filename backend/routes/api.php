@@ -55,8 +55,8 @@ Route::group(['prefix' => 'contribution'], function () {
 
 
 Route::group(['prefix' => 'reports'], function () {
-    Route::post('contributors', 'App\Http\Controllers\Api\RefData\ReportController@getMemberReports');
-    Route::post('contributions', 'App\Http\Controllers\Api\RefData\ReportController@getPaymentsReport');
+    Route::post('contributors', 'App\Http\Controllers\Api\Reports\ReportController@getMemberReports');
+    Route::post('contributions', 'App\Http\Controllers\Api\Reports\ReportController@getPaymentsReport');
 });
 
 
