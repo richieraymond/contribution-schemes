@@ -16,7 +16,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 export class ContributionReportComponent extends CommonComponent implements OnInit {
     cols: any;
     contributions: any = [];
-    private endPoint = 'scheme/contributions';
+    private endPoint = 'reports/contributions';
     branches: any;
     to_dt: any;
     from_dt: any;
