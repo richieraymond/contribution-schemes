@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\RefData;
+namespace App\Http\Controllers\Api\Reports;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\FilterReportRequest;
@@ -12,7 +12,9 @@ class ReportController extends BaseController
 
     public function __construct()
     {
-        return $this->middleware(['auth:api']);
+        // return $this->middleware(['auth:api']);
+        // $this->middleware(['auth:schemes']);
+        $this->middleware(['auth:admins,schemes']);
     }
 
     public function getMemberReports(FilterReportRequest $request)

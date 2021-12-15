@@ -16,7 +16,8 @@ class BranchController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware(['auth:admins']);
+        // $this->middleware(['auth:admins']);
+        $this->middleware(['auth:admins,schemes']);
     }
 
     /**
