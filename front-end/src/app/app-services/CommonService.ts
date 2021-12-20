@@ -81,6 +81,7 @@ export class CommonService {
     }
 
     showSuccess(message, key = 'message') {
+        this.clearMessage(key);
         this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -90,6 +91,7 @@ export class CommonService {
     }
 
     showError(message, key = 'message') {
+        this.clearMessage(key);
         this.messageService.add({
             severity: 'error',
             summary: 'error',
@@ -99,18 +101,20 @@ export class CommonService {
     }
 
     showWarning(message, key = 'message') {
+        this.clearMessage(key);
         this.messageService.add({
             severity: 'warn',
-            summary: 'Warning!!',
+            summary: 'Warning',
             detail: message,
             key: key
         });
     }
 
     showInfo(message, key = 'message') {
+        this.clearMessage(key);
         this.messageService.add({
             severity: 'info',
-            summary: 'Success',
+            summary: 'Info',
             detail: message,
             key: key
         });

@@ -35,7 +35,7 @@ class CreateContributorRequest extends FormRequest
             'title' => 'required',
             'gender' => 'required',
             'dob' => 'required',
-            'maritalstatus' => 'required',
+            'maritalstatus' => 'nullable|exists:marital_statuses,id',
             'other_phone' => 'nullable|regex:/^\+?\d{3} ?\d{3} ?\d{3} ?\d{3}$/',
             'home_parish' => 'required',
             'center' => 'required',

@@ -67,6 +67,9 @@ class TitleController extends BaseController
             $title->user_agent = $request->header('User-Agent');
             $title->ip_address = $request->ip();
             $title->name = $data['name'];
+            $title->max_dependents = $data['max_dependents'];
+            $title->has_children = $data['has_children'];
+            $title->gender = $data['gender'];
             $title->created_by = Auth::user()->id;
             $title->save();
 
@@ -123,6 +126,9 @@ class TitleController extends BaseController
             $title->user_agent = $request->header('User-Agent');
             $title->ip_address = $request->ip();
             $title->name = $data['name'];
+            $title->max_dependents = $data['max_dependents'];
+            $title->has_children = $data['has_children'];
+            $title->gender = $data['gender'];
             if (array_key_exists('status', $data)) {
                 $title->status = $data['status'];
             }

@@ -40,15 +40,15 @@ class PasswordController extends BaseController
             $user = null;
             if ($validated['model'] === 'admin') {
                 if ($validated['use_phone']) {
-                    $user = Admin::where(['phone' => $validated['phone']])->firstOrFail();
+                    $user = Admin::where(['phone' => $validated['phone']])->first();
                 } else {
-                    $user = Admin::where(['email' => $validated['email']])->firstOrFail();
+                    $user = Admin::where(['email' => $validated['email']])->first();
                 }
             } else {
                 if ($validated['use_phone']) {
-                    $user = Admin::where(['phone' => $validated['phone']])->firstOrFail();
+                    $user = Admin::where(['phone' => $validated['phone']])->first();
                 } else {
-                    $user = Admin::where(['email' => $validated['email']])->firstOrFail();
+                    $user = Admin::where(['email' => $validated['email']])->first();
                 }
             }
             if (!$user) {

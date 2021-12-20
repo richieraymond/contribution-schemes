@@ -11,7 +11,7 @@ class DashboardController extends BaseController
 {
     public function __construct()
     {
-        $this->middleware(['auth:admins, schemes']);
+        $this->middleware(['auth:admins,schemes']);
     }
 
     public function index()
