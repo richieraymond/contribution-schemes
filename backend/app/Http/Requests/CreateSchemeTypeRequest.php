@@ -28,7 +28,7 @@ class CreateSchemeTypeRequest extends FormRequest
             'status' => 'nullable|boolean',
             'max_dependents' => 'nullable|numeric|min:0',
             'has_children' => 'nullable|boolean',
-            'gender' => 'nullable|in:Male,Female'
+            'gender' => 'nullable|in:MALE,FEMALE'
         ];
     }
 }
