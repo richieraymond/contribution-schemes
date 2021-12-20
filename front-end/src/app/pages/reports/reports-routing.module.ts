@@ -10,7 +10,6 @@ const routes: Routes = [
     {
         path: 'contributors-report',
         component: MemberReportComponent,
-        canActivate: [ManageUserGuard, LoggedInGuard],
         data: {
             breadcrumb: 'Contributors Report',
             icon: 'icofont-home bg-c-blue',
@@ -20,7 +19,6 @@ const routes: Routes = [
     {
         path: 'contributions-report',
         component: ContributionReportComponent,
-        canActivate: [ManageAdminGuard, LoggedInGuard],
         data: {
             breadcrumb: 'Contributions Report',
             icon: 'icofont-home bg-c-blue',

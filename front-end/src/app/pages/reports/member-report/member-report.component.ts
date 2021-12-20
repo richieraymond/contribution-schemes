@@ -17,6 +17,10 @@ export class MemberReportComponent extends CommonComponent implements OnInit {
     cols: any;
     contributors: any = [];
     private endPoint = 'reports/contributors';
+    from_dt: any;
+    to_dt: any;
+    branches: any[] = [];
+    selectedBranches: any[] = [];
 
     constructor(commonService: CommonService,
                 helper: RemoteHelper,
@@ -35,14 +39,19 @@ export class MemberReportComponent extends CommonComponent implements OnInit {
             {field: 'phone', header: 'Phone'},
             {field: 'status', header: 'Status'}
         ];
+        this.getBranches();
         this.getRecords();
     }
 
     getRecords() {
         const controller = this;
-        const postObject = {};
+        const postObject = {
+            from_dt: this.from_dt,
+            to_dt: this.to_dt,
+            branches: this.selectedBranches
+        };
         this.sendRequestToServer(this.endPoint,
-            'get',
+            'post',
             postObject,
             true,
             function (response: any) {
@@ -53,6 +62,26 @@ export class MemberReportComponent extends CommonComponent implements OnInit {
                 }
             }, function (error: any) {
                 controller.commonService.showError(error.error.message);
+            });
+    }
+
+    private getBranches() {
+        const self = this;
+        this.sendRequestToServer('scheme/branch',
+            'get',
+            null,
+            true,
+            function (response: any) {
+                if (response.success) {
+                    self.branches = response.branches;
+                    if (self.branches.length === 1) {
+                        self.selectedBranches.push(self.branches[0].id);
+                    }
+                } else {
+                    self.commonService.showError(response.message);
+                }
+            }, function (error: any) {
+                self.commonService.showError(error.error.message);
             });
     }
 }

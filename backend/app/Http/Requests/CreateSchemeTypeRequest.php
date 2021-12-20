@@ -25,7 +25,10 @@ class CreateSchemeTypeRequest extends FormRequest
     {
         return [
             'name' => 'string|required',
-            'status' => 'nullable|boolean'
+            'status' => 'nullable|boolean',
+            'max_dependents' => 'nullable|numeric|min:0',
+            'has_children' => 'nullable|boolean',
+            'gender' => 'nullable|in:MALE,FEMALE'
         ];
     }
 }

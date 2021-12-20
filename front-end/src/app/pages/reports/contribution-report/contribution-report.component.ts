@@ -16,7 +16,11 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 export class ContributionReportComponent extends CommonComponent implements OnInit {
     cols: any;
     contributions: any = [];
-    private endPoint = 'scheme/contributions';
+    private endPoint = 'reports/contributions';
+    branches: any;
+    to_dt: any;
+    from_dt: any;
+    selectedBranches: any[] = [];
 
     constructor(commonService: CommonService,
                 helper: RemoteHelper,
@@ -35,6 +39,7 @@ export class ContributionReportComponent extends CommonComponent implements OnIn
             {field: 'project_name', header: 'Cause'},
             {field: 'payment_channel', header: 'Payment Channel'}
         ];
+        this.getBranches();
         this.getRecords();
     }
 
@@ -53,6 +58,26 @@ export class ContributionReportComponent extends CommonComponent implements OnIn
                 }
             }, function (error: any) {
                 controller.commonService.showError(error.error.message);
+            });
+    }
+
+    private getBranches() {
+        const self = this;
+        this.sendRequestToServer('scheme/branch',
+            'get',
+            null,
+            true,
+            function (response: any) {
+                if (response.success) {
+                    self.branches = response.branches;
+                    if (self.branches.length === 1) {
+                        self.selectedBranches.push(self.branches[0].id);
+                    }
+                } else {
+                    self.commonService.showError(response.message);
+                }
+            }, function (error: any) {
+                self.commonService.showError(error.error.message);
             });
     }
 

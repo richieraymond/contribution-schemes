@@ -8,6 +8,45 @@
                         styleClass="p-button-sm"></button>
           </span>
     </div>
+    <p-accordion>
+        <p-accordionTab header="Filters">
+            <div class="row">
+                <div class="col-md-5">
+                    <h6>From Date:</h6>
+                    <p-calendar [(ngModel)]="from_dt" appendTo="body"></p-calendar>
+                </div>
+                <div class="col-md-5">
+                    <h6>To Date:</h6>
+                    <p-calendar [(ngModel)]="to_dt" appendTo="body"></p-calendar>
+                </div>
+            </div>
+            <div *ngIf="branches.length>1" class="col-md-8">
+                <h6>Select Branches</h6>
+                <div class="form-group">
+                    <p-multiSelect
+                            [(ngModel)]="selectedBranches"
+                            [filter]="true"
+                            [options]="branches"
+                            [style]="{'width':'100%'}"
+                            emptyFilterMessage="No branches found"
+                            filterBy="name"
+                            optionLabel="name"
+                            optionValue="id"
+                            placeholder="Select branch/ Branches"
+                            selectedItemsLabel="Selected Branches">
+                    </p-multiSelect>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 mt-3">
+                    <button (click)="getRecords()" class="btn btn-primary btn-block btn-sm">Search
+                        <i class="pi pi-search"></i></button>
+                </div>
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+
     <p-messages key="message"></p-messages>
     <p-confirmPopup></p-confirmPopup>
     <p-table #dt [autoLayout]="true" [columns]="cols" [paginator]="true" [responsive]="true" [rows]="10"
@@ -34,7 +73,6 @@
                 <th *ngFor="let col of columns">
                     {{col.header}}
                 </th>
-                <th>Actions</th>
             </tr>
         </ng-template>
         <ng-template let-columns="columns" let-i="rowIndex" let-rowData pTemplate="body">

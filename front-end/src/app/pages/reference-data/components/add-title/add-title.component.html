@@ -11,6 +11,37 @@
                       class="text-danger text-left">{{ formErrors.name }}</span>
             </div>
         </div>
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <div class="p-field-checkbox">
+                    <label for="binary">Has children</label>
+                    <p-checkbox binary="true" formControlName="has_children" id="binary"></p-checkbox>
+                </div>
+                <span *ngIf="formErrors.has_children"
+                      class="text-danger text-left">{{ formErrors.has_children }}</span>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="max_dependents">Max number of dependents</label>
+                <input (blur)="validateCategoryForm()" class="w-full" formControlName="max_dependents"
+                       id="max_dependents"
+                       pInputText type="text">
+                <span *ngIf="formErrors.max_dependents"
+                      class="text-danger text-left">{{ formErrors.max_dependents }}</span>
+            </div>
+        </div>
+        <div class="formgrid grid">
+            <div class="field col-6 md:col-12 col-xs-12">
+                <label for="gender">Gender</label>
+                <input (blur)="validateCategoryForm()" class="w-full" formControlName="gender"
+                       id="gender"
+                       pInputText type="text">
+                <span *ngIf="formErrors.gender"
+                      class="text-danger text-left">{{ formErrors.gender }}</span>
+            </div>
+        </div>
         <div class="formgrid grid submit">
             <p-button icon="pi pi-check" iconPos="right" label="Submit" type="submit"></p-button>
         </div>

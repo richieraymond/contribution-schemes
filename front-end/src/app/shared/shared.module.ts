@@ -51,6 +51,8 @@ import {FileUploadModule} from 'primeng/fileupload';
 import {HttpClientModule} from '@angular/common/http';
 import {ManageSchemeGuard} from '../pages/auth/guards/manage-scheme.guard';
 import {StepsModule} from 'primeng/steps';
+import {AccordionModule} from "primeng/accordion";
+// import {ChartModule} from 'primeng/chart';
 
 const primeNgModules = [
     MessagesModule,
@@ -80,7 +82,8 @@ const primeNgModules = [
     GMapModule,
     FileUploadModule,
     HttpClientModule,
-    StepsModule
+    StepsModule,
+    AccordionModule
 ];
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true

@@ -4,7 +4,8 @@
         <div class="formgrid grid">
             <div class="field col-6 ">
                 <label for="title">Select Title.</label>
-                <p-dropdown [filter]="true"
+                <p-dropdown (onChange)="updateValidators()"
+                            [filter]="true"
                             [options]="titles"
                             [showClear]="true"
                             [style]="{'display': 'flex'}"
@@ -182,7 +183,8 @@
         <div class="formgrid grid">
             <div *ngIf="!showChildDetailsInput" class="field col-6 md:col-12 col-xs-12">
                 <p-button (click)="addToArray()" iconPos="right"
-                          label="Add Biological Child" type="button">
+                          label="{{selectedTitle.has_children ? 'Add Biological Child' : 'Add Dependent' }}"
+                          type="button">
                 </p-button>
             </div>
         </div>
@@ -258,7 +260,7 @@
                 <span *ngIf="formErrors.biological_father"
                       class="text-danger text-left">{{ formErrors.biological_father }}</span>
             </div>
-            <div class="field col-6 md:col-12 col-xs-12">
+            <div *ngIf="selectedTitle?.has_children" class="field col-6 md:col-12 col-xs-12">
                 <label for="spouse">Spouse</label>
                 <input (blur)="validateContributorForm()" class="w-full" formControlName="spouse"
                        id="spouse"
