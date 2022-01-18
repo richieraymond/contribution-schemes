@@ -144,7 +144,7 @@
                         </ng-template>
                     </p-table>
                 </p-tabPanel>
-                <p-tabPanel header="Biological Children">
+                <p-tabPanel header="{{contributorBio?.title?.has_children ? 'Biological Children':'Dependents'}}">
                     <p-table #dt [autoLayout]="true"
                              [columns]="childrenCols"
                              [paginator]="true"

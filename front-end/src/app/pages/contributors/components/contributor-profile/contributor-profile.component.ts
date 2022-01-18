@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonComponent} from '../../../../app-services/CommonComponent';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder} from '@angular/forms';
 import {CommonService} from '../../../../app-services/CommonService';
 import {RemoteHelper} from '../../../../app-services/RemoteHelper';
 import {LoaderService} from '../../../../app-services/LoaderService';
@@ -55,7 +55,7 @@ export class ContributorProfileComponent extends CommonComponent implements OnIn
             true,
             function (response: any) {
                 if (response.success) {
-                    console.log(response.contributor)
+                    console.log(response.contributor);
                     controller.contributorBio = response.contributor;
                     controller.children = response?.contributor?.children;
                 } else {
