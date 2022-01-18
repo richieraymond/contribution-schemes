@@ -46,7 +46,7 @@ export class AdminLoginComponent extends CommonComponent implements OnInit {
     ngOnInit() {
         this.logInForm = this.builder.group({
             'useridentifier': [null, [Validators.required, Validators.email]],
-            'password': [null, [Validators.required, Validators.minLength(8)]],
+            'password': [null, [Validators.required]],
             'model': ['admin', []],
         });
     }
