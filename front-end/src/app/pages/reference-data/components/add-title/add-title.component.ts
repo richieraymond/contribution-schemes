@@ -13,16 +13,28 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
     styleUrls: ['./add-title.component.scss']
 })
 export class AddTitleComponent extends CommonComponent implements OnInit {
-    companies: any[] = [];
     form: FormGroup;
     formErrors = {
         name: '',
+        max_dependents: '',
+        has_children: '',
+        gender: '',
     };
     validationMessages = {
         name: {
             required: 'Name is required',
             pattern: 'Name must contain only text',
             maxLength: 'Name be less than 100 characters',
+        },
+        max_dependents: {
+            required: 'This field is required',
+            min: 'Minimum value is zero',
+        },
+        has_children: {
+            required: 'This field is required',
+        },
+        gender: {
+            required: 'This field is required',
         }
     };
     display: any = true;
@@ -43,10 +55,13 @@ export class AddTitleComponent extends CommonComponent implements OnInit {
     ngOnInit(): void {
         this.form = this.builder.group({
             'name': [null, [Validators.required, Validators.maxLength(50)]],
+            'max_dependents': [null, [Validators.required, Validators.min(0)]],
+            'has_children': [true, [Validators.required]],
+            'gender': [null, [Validators.required]],
         });
         this.titleId = this.router.snapshot.params.titleId;
         if (this.titleId) {
-            this.getCategoryId(this.titleId);
+            this.getTitleData(this.titleId);
         }
     }
 
@@ -108,7 +123,7 @@ export class AddTitleComponent extends CommonComponent implements OnInit {
         }, 2000);
     }
 
-    private getCategoryId(categoryId: any) {
+    private getTitleData(categoryId: any) {
         const controller = this;
         this.sendRequestToServer(this.endPoint + '/' + categoryId,
             'get',
@@ -117,6 +132,9 @@ export class AddTitleComponent extends CommonComponent implements OnInit {
             function (response: any) {
                 if (response.success) {
                     controller.form.controls['name'].setValue(response.title.name);
+                    controller.form.controls['max_dependents'].setValue(response.title.max_dependents);
+                    controller.form.controls['has_children'].setValue(response.title.has_children);
+                    controller.form.controls['gender'].setValue(response.title.gender);
                 } else {
                     controller.commonService.showError(response.message);
                 }

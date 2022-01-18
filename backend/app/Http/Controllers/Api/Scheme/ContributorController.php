@@ -148,7 +148,7 @@ class ContributorController extends BaseController
         } catch (\Exception $ex) {
             return $this->sendResponse(
                 false,
-                'Failed to create guard' . $ex->getMessage(),
+                'Failed to create contributor' . $ex->getMessage(),
                 400
             );
         }
@@ -191,7 +191,7 @@ class ContributorController extends BaseController
         } catch (\Exception $ex) {
             return $this->sendResponse(
                 false,
-                'Failed to retrieve guard' . $ex,
+                'Failed to retrieve contributor' . $ex,
                 400
             );
         }

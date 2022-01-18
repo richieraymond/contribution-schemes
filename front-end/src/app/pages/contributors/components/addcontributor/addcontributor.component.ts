@@ -127,7 +127,7 @@ export class AddContributorComponent extends CommonComponent implements OnInit, 
     display: any = true;
     endPoint = 'scheme/contributor';
     contributorId: any;
-    titles: any = [];
+    titles: any[] = [];
     profilePhoto: File = null;
     image: any;
     maritalstatus: '';
@@ -137,6 +137,7 @@ export class AddContributorComponent extends CommonComponent implements OnInit, 
     clonedChildren: any = {};
     children2: any[] = [];
     items: any[] = [];
+    selectedTitle: any = {};
 
     constructor(commonService: CommonService,
                 helper: RemoteHelper,
@@ -160,7 +161,7 @@ export class AddContributorComponent extends CommonComponent implements OnInit, 
             'title': ['', []],
             'gender': ['', []],
             'dob': ['', [Validators.required]],
-            'maritalstatus': [Validators.required],
+            'maritalstatus': [null, Validators.required],
             'other_phone': ['', [Validators.pattern('^(\\+?\\d{3} ?\\d{3} ?\\d{3} ?\\d{3}$)')]],
             'home_parish': ['', [Validators.required]],
             'center': ['', [Validators.required]],
@@ -366,7 +367,16 @@ export class AddContributorComponent extends CommonComponent implements OnInit, 
         if (this.contributorChildren.length === 0) {
             this.contributorChildren.push({id: 1, 'name': '', 'dob': ''});
         } else {
-            this.contributorChildren.push({id: this.contributorChildren.length + 2, 'name': '', 'dob': ''});
+            if (this.selectedTitle?.max_dependents > 0 && this.contributorChildren.length < this.selectedTitle?.max_dependents) {
+                this.contributorChildren.push({id: this.contributorChildren.length + 2, 'name': '', 'dob': ''});
+            } else {
+                this.commonService.showInfo('You can not add more than ' + this.selectedTitle?.max_dependents + ' dependents');
+            }
         }
+    }
+
+    updateValidators() {
+        this.selectedTitle = this.titles.find(val => val?.id === this.form.controls['title'].value);
+        this.form.controls['gender'].setValue(this?.selectedTitle?.gender);
     }
 }
