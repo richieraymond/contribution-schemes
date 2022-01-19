@@ -25,8 +25,8 @@ class DashboardController extends BaseController
             $admins = 0;
             $schemes = 0;
 
-            $tomorrow= '12-31-2021'; //date("m-d-Y", strtotime("+1 day"));
-            $todayYearBack =  '12-31-2020';// date("m-d-Y", strtotime("-1 year"));
+            $tomorrow= date("m-d-Y", strtotime("+1 day"));
+            $todayYearBack =  date("m-d-Y", strtotime("-1 year"));
             if (Auth::user()->scheme_id) {
                 $contributors = DB::table('contributors')
                     ->where('scheme_id', Auth::user()->scheme_id)
